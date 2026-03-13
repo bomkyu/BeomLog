@@ -1,1 +1,11 @@
 @import 'tailwindcss';
+
+:root {
+  --primary-blue: 13 127 242;
+  --light-blue: rgba(13, 127, 242, 0.2);
+
+  --dark-gray: #1e293b;
+  --light-gray: #f5f7f8;
+
+  --background: #f5f7f8;
+}
