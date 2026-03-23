@@ -1,7 +1,11 @@
+import Link from 'next/link';
 import Badge from './component/Badge';
 import Buttons from './component/Buttons';
 import AboutCard from './component/Card/AboutCard';
+import TechStackTabs from './component/TechStack/TechStackTabs';
 import Typography from './component/Typography';
+import PortfolioCard from './component/Card/PortfolioCard';
+import ConTactInput from './component/InputField/ConTactInput';
 
 export default function Home() {
   return (
@@ -14,7 +18,7 @@ export default function Home() {
             <br />
             창의적인 솔루션을 만드는
             <br />
-            <span className='text-[rgb(var(--primary-blue))]'>서범규</span>
+            <span className='text-primary-blue'>서범규</span>
             입니다
           </Typography>
           <Typography variant='caption'>
@@ -32,7 +36,7 @@ export default function Home() {
       <section className='py-20'>
         <div className='flex gap-12'>
           <div className='flex w-[360px] h-9 gap-2 items-center'>
-            <div className='w-8 h-1 bg-[rgb(var(--primary-blue))] rounded-2xl' />
+            <div className='w-8 h-1 bg-primary-blue rounded-2xl' />
             <Typography variant='h2'>소개</Typography>
           </div>
           <div className='w-full flex flex-col gap-6'>
@@ -63,11 +67,52 @@ export default function Home() {
           <Typography variant='h2' className='text-center'>
             기술스택
           </Typography>
-          <div className=''></div>
+
+          <TechStackTabs />
         </div>
       </section>
 
-      <section></section>
+      <section className='py-20'>
+        <div className='flex justify-between '>
+          <div className='flex flex-col gap-2'>
+            <Typography variant='h2'>진행한 프로젝트</Typography>
+            <Typography variant='caption'>
+              최근에 작업한 주요 프로젝트들입니다.
+            </Typography>
+          </div>
+          <div className='flex items-end'>
+            <Link href='/' className='text-primary-blue'>
+              전체 보기
+            </Link>
+          </div>
+        </div>
+        <div className='mt-12'>
+          <PortfolioCard />
+        </div>
+      </section>
+      <section className='py-20'>
+        <div className='flex gap-12 p-16 justify-between bg-primary-blue/5 rounded-3xl '>
+          <div className='flex flex-col gap-6'>
+            <Typography className='text-4xl'>
+              함께 일하고 싶으신가요?
+            </Typography>
+            <Typography className='text-base'>
+              새로운 도전을 환영합니다. 프로젝트 제안이나 궁금한 점이 있다면
+              <br />
+              언제든 편하게 연락 주세요!
+            </Typography>
+            <div className='flex flex-col gap-4'>
+              <div>a01090762806@gmail.com</div>
+              <div>인천광역시 서구</div>
+            </div>
+          </div>
+          <div className='flex flex-col w-[325px] p-8 gap-4 rounded-2xl border border-stroke-gray bg-white shadow-[0_10px_15px_-1px_rgba(0,0,0,0.1)]'>
+            <ConTactInput label='성함' placeholder='홍길동' />
+            <ConTactInput label='이메일' placeholder='example@co.kr' />
+            <Buttons btnType='primary'>보내기</Buttons>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
