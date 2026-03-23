@@ -10,9 +10,9 @@ const baseStyles =
   'px-6 py-2 rounded-lg font-semibold transition-all duration-200 cursor-pointer';
 
 const typeStylesMap = {
-  primary: 'bg-[rgb(var(--primary-blue))] text-white ',
-  secondary: 'bg-[rgb(var(--light-blue)] text-blue-600',
-  outLine: 'bg-transparent border border-[var(--outline-gray)] text-gray-800',
+  primary: 'bg-primary-blue text-white ',
+  secondary: 'bg-primary-blue text-blue-600',
+  outLine: 'bg-transparent border border-outline-gray text-gray-800',
 };
 
 const Buttons = ({ children, btnType, onClick }: ButtonsProps) => {
