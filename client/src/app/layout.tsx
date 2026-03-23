@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from './component/Header';
+import Footer from './component/Footer';
 
 const inter = Inter({
   variable: '--font-geist-sans',
@@ -20,9 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${inter.variable} bg-[var(--background)]`}>
+      <body className={`${inter.variable} bg-background`}>
         <Header />
         <div className='max-w-[1280px] m-auto'>{children}</div>
+        <Footer />
       </body>
     </html>
   );
