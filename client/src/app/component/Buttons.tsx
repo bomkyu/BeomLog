@@ -19,7 +19,7 @@ const Buttons = ({ children, btnType, onClick }: ButtonsProps) => {
   return (
     <button
       onClick={onClick}
-      className={`${baseStyles} ${typeStylesMap[btnType]}`}
+      className={`flex justify-center ${baseStyles} ${typeStylesMap[btnType]}`}
     >
       {children}
     </button>
