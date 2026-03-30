@@ -6,6 +6,9 @@ import TechStackTabs from './component/TechStack/TechStackTabs';
 import Typography from './component/Typography';
 import PortfolioCard from './component/Card/PortfolioCard';
 import ConTactInput from './component/InputField/ConTactInput';
+import Image from 'next/image';
+import { MAIN_ICON_MAP } from './component/icons';
+import dummyImg from '@/app/images/dummy-img.png';
 
 export default function Home() {
   return (
@@ -29,7 +32,14 @@ export default function Home() {
           </Typography>
         </div>
         <div className='flex gap-4'>
-          <Buttons btnType='primary'>프로젝트 보기</Buttons>
+          <Buttons btnType='primary'>
+            프로젝트 보기
+            <Image
+              src={MAIN_ICON_MAP['white-arrow-icon']}
+              alt='프로젝트보기 버튼 아이콘'
+              className='ml-2'
+            />
+          </Buttons>
           <Buttons btnType='outLine'>연락하기</Buttons>
         </div>
       </section>
@@ -51,10 +61,12 @@ export default function Home() {
             </div>
             <div className='flex gap-6'>
               <AboutCard
+                icon='introduce-icon'
                 title='성능최적화'
                 description='빠른 로딩 속도와 부드러운 사용자 경험을 최우선으로 고려합니다.'
               />
               <AboutCard
+                icon='introduce2-icon'
                 title='협업 중심'
                 description='기획자, 디자이너와 긴밀히 소통하며 비즈니스 목표를 달성합니다.'
               />
@@ -87,7 +99,15 @@ export default function Home() {
           </div>
         </div>
         <div className='mt-12'>
-          <PortfolioCard />
+          <PortfolioCard
+            img={dummyImg}
+            title={'차세대 커머스 대시보드'}
+            tag={'React'}
+            description={
+              '실시간 주문 트래킹과 데이터 시각화를 제공하는 B2B 관리자 대시보드를 구축했습니다. 전반적인 성능을 40% 개선했습니다.'
+            }
+            src={'/'}
+          />
         </div>
       </section>
       <section className='py-20'>
@@ -102,8 +122,26 @@ export default function Home() {
               언제든 편하게 연락 주세요!
             </Typography>
             <div className='flex flex-col gap-4'>
-              <div>a01090762806@gmail.com</div>
-              <div>인천광역시 서구</div>
+              <div className='flex gap-4 items-center'>
+                <div className='flex w-10 h-10 justify-center items-center rounded-full bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]'>
+                  <Image
+                    src={MAIN_ICON_MAP['mail-icon']}
+                    alt={`메일 icon`}
+                    priority={true}
+                  />
+                </div>
+                <Typography>a01090762806@gmail.com</Typography>
+              </div>
+              <div className='flex gap-4 items-center'>
+                <div className='flex w-10 h-10 justify-center items-center rounded-full bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]'>
+                  <Image
+                    src={MAIN_ICON_MAP['location-icon']}
+                    alt={`메일 icon`}
+                    priority={true}
+                  />
+                </div>
+                <Typography>인천광역시 서구</Typography>
+              </div>
             </div>
           </div>
           <div className='flex flex-col w-[325px] p-8 gap-4 rounded-2xl border border-stroke-gray bg-white shadow-[0_10px_15px_-1px_rgba(0,0,0,0.1)]'>
