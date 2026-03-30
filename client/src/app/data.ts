@@ -11,17 +11,13 @@ export const STACK_DATA: { [key: string]: StackItem[] } = {
     { name: 'Next.js', icon: 'next-icon' },
     { name: 'Tailwind CSS', icon: 'tailwind-icon' },
     { name: 'Redux', icon: 'redux-icon' },
-    { name: 'Recoil', icon: 'recoil-icon' },
   ],
   BackEnd: [
     { name: 'NestJS', icon: 'nest-icon' },
     { name: 'MySQL', icon: 'mysql-icon' },
     { name: 'PHP', icon: 'php-icon' },
   ],
-  DevOps: [
-    { name: 'Docker', icon: 'docker-icon' },
-    { name: 'GitHub Actions', icon: 'github-icon' },
-  ],
+  DevOps: [{ name: 'Docker', icon: 'docker-icon' }],
   Tools: [
     { name: 'Figma', icon: 'figma-icon' },
     { name: 'Notion', icon: 'notion-icon' },
