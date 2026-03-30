@@ -30,7 +30,11 @@ const TechStackTabs = () => {
       </div>
       <div className='grid grid-cols-3 items-start w-full p-8 gap-6'>
         {STACK_DATA[activeTab].map((stack, index) => (
-          <TechStackCardItem key={index} text={stack.name} />
+          <TechStackCardItem
+            key={index}
+            text={stack.name}
+            iconName={stack.icon}
+          />
         ))}
       </div>
     </div>
