@@ -3,6 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Post } from './posts/entities/post.entity';
+import { Category } from './categories/entities/category.entity';
+import { Tag } from './tags/entities/tag.entity';
+import { Comment } from './comments/entities/comment.entity';
 
 @Module({
   imports: [
@@ -16,7 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: config.get<string>('DB_USER'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [Post, Category, Tag, Comment],
         synchronize: true,
       }),
     }),
