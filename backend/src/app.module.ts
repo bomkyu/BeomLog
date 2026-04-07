@@ -7,6 +7,7 @@ import { Post } from './posts/entities/post.entity';
 import { Category } from './categories/entities/category.entity';
 import { Tag } from './tags/entities/tag.entity';
 import { Comment } from './comments/entities/comment.entity';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Comment } from './comments/entities/comment.entity';
         synchronize: true,
       }),
     }),
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
