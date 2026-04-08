@@ -32,14 +32,16 @@ export default function Home() {
           </Typography>
         </div>
         <div className='flex gap-4'>
-          <Buttons btnType='primary'>
-            프로젝트 보기
-            <Image
-              src={MAIN_ICON_MAP['white-arrow-icon']}
-              alt='프로젝트보기 버튼 아이콘'
-              className='ml-2'
-            />
-          </Buttons>
+          <Link href={'/blog'}>
+            <Buttons btnType='primary'>
+              프로젝트 보기
+              <Image
+                src={MAIN_ICON_MAP['white-arrow-icon']}
+                alt='프로젝트보기 버튼 아이콘'
+                className='ml-2'
+              />
+            </Buttons>
+          </Link>
           <Buttons btnType='outLine'>연락하기</Buttons>
         </div>
       </section>
