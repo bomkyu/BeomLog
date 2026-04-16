@@ -4,6 +4,7 @@ type ButtonsProps = {
   children: ReactNode;
   btnType: 'primary' | 'secondary' | 'outLine';
   onClick?: () => void;
+  className?: string;
 };
 
 const baseStyles =
@@ -15,11 +16,11 @@ const typeStylesMap = {
   outLine: 'bg-transparent border border-outline-gray text-gray-800',
 };
 
-const Buttons = ({ children, btnType, onClick }: ButtonsProps) => {
+const Buttons = ({ children, btnType, className, onClick }: ButtonsProps) => {
   return (
     <button
       onClick={onClick}
-      className={`flex justify-center ${baseStyles} ${typeStylesMap[btnType]}`}
+      className={`flex justify-center ${baseStyles} ${typeStylesMap[btnType]} ${className}`}
     >
       {children}
     </button>
