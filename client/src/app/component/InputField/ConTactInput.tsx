@@ -4,7 +4,7 @@ type ConTactInput = {
 };
 const ConTactInput = ({ label, placeholder }: ConTactInput) => {
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col w-full gap-2'>
       <label
         htmlFor='nameInput'
         className='text-xs font-medium text-slate-700 ml-1'
