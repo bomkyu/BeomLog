@@ -14,6 +14,7 @@ import Introduce2 from './introduce-icon2.svg';
 import WhiteArrow from './white-arrow-right-icon.svg';
 import MialIcon from './mail-icon.svg';
 import LocationIcon from './location-icon.svg';
+import CloudIcon from './cloud-icon.svg';
 
 export const STACK_ICON_MAP: { [key: string]: string } = {
   'react-icon': ReactIcon,
@@ -35,4 +36,8 @@ export const MAIN_ICON_MAP: { [key: string]: string } = {
   'white-arrow-icon': WhiteArrow,
   'mail-icon': MialIcon,
   'location-icon': LocationIcon,
+};
+
+export const BLOG_ICON_MAP: { [key: string]: string } = {
+  'cloud-icon': CloudIcon,
 };
