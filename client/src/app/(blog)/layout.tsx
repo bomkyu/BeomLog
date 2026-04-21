@@ -12,7 +12,7 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className='blog-container '>
+    <div className='blog-container pt-[63px]'>
       <Header />
       <main className='max-w-[1240px] w-full m-auto'>{children}</main>
       <Footer />
