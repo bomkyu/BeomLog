@@ -5,9 +5,9 @@ import Buttons from '@/app/component/Buttons';
 
 const BlogViewPage = () => {
   return (
-    <div className='max-w-[1280px] w-full m-auto pt-[60px] pb-4 bg-white'>
+    <div className='max-w-[1280px] w-full m-auto pt-[60px] bg-white'>
       <div className='p-4'>
-        <div className='flex relative w-full h-100 rounded-b-xl overflow-hidden'>
+        <div className='flex relative w-full h-100 rounded-xl overflow-hidden'>
           <img
             className='w-full'
             src={
