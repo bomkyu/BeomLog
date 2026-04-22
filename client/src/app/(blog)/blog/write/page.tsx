@@ -5,6 +5,7 @@ import Typography from '@/app/component/Typography';
 import Form from 'next/form';
 import ImageUploadDropzone from '../../components/UploadDropZone';
 import TiptapEditor from '../../components/Editor/TiptapEditor';
+import Buttons from '@/app/component/Buttons';
 
 const Write = () => {
   return (
@@ -39,10 +40,14 @@ const Write = () => {
               <TiptapEditor
                 content={'asdasd'}
                 onChange={function (html: string): void {
-                  throw new Error('Function not implemented.');
+                  // console.log(html);
                 }}
               />
             </div>
+          </div>
+          <div className='flex justify-end gap-3 mt-6 pt-4 border-t border-[#F1F5F9]'>
+            <Buttons btnType={'outLine'}>임시저장</Buttons>
+            <Buttons btnType={'primary'}>저장하기</Buttons>
           </div>
         </Form>
       </section>
