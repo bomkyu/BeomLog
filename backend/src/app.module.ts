@@ -5,9 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Post } from './posts/entities/post.entity';
 import { Category } from './categories/entities/category.entity';
-import { Tag } from './tags/entities/tag.entity';
+import { Tag } from './tags/entities/tags.entity';
 import { Comment } from './comments/entities/comment.entity';
 import { PostsModule } from './posts/posts.module';
+import { CategoriesModule } from './categories/categories.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { PostsModule } from './posts/posts.module';
       }),
     }),
     PostsModule,
+    CategoriesModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
