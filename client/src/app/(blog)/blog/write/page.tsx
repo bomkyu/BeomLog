@@ -6,8 +6,13 @@ import Form from 'next/form';
 import ImageUploadDropzone from '../../components/UploadDropZone';
 import TiptapEditor from '../../components/Editor/TiptapEditor';
 import Buttons from '@/app/component/Buttons';
+import { useState } from 'react';
+import handleCreatePosts from './action/createPost';
 
 const Write = () => {
+  const [content, setContent] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
+
   return (
     <div className='py-8'>
       <div className='flex flex-col gap-2 mb-6'>
@@ -17,12 +22,21 @@ const Write = () => {
         </Typography>
       </div>
       <section className='p-8 rounded-xl bg-white'>
-        <Form action={'/'}>
+        <Form action={handleCreatePosts}>
           <div className='flex flex-col gap-6'>
-            <ConTactInput label='제목' placeholder='제목을 입력하세요' />
+            <ConTactInput
+              name='title'
+              label='제목'
+              placeholder='제목을 입력하세요'
+            />
             <div className='flex gap-6 w-full'>
-              <ConTactInput label='카테고리' placeholder='카테고리 선택' />
               <ConTactInput
+                name='category'
+                label='카테고리'
+                placeholder='카테고리 선택'
+              />
+              <ConTactInput
+                name='tags'
                 label='태그 (쉼표로 구분)'
                 placeholder='예: 개발, 디자인, 일상'
               />
@@ -31,18 +45,20 @@ const Write = () => {
               <Typography className='text-xs font-medium text-slate-700 ml-1'>
                 대표 이미지 (썸네일)
               </Typography>
-              <ImageUploadDropzone />
+              <ImageUploadDropzone
+              // onUploadSuccess={(url) => setThumbnailUrl(url)}
+              />
+              <input type='hidden' name='thumbnail' value={thumbnailUrl} />
             </div>
             <div className='flex flex-col gap-2'>
               <Typography className='text-xs font-medium text-slate-700 ml-1'>
                 본문 내용
               </Typography>
               <TiptapEditor
-                content={'asdasd'}
-                onChange={function (html: string): void {
-                  // console.log(html);
-                }}
+                content={content}
+                onChange={(html) => setContent(html)}
               />
+              <input type='hidden' name='content' value={content} />
             </div>
           </div>
           <div className='flex justify-end gap-3 mt-6 pt-4 border-t border-[#F1F5F9]'>
