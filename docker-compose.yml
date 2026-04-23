@@ -30,7 +30,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
     ports:
-      - '${BACKEND_PORT}:4000'
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
     depends_on:
       - db
 
@@ -41,5 +41,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
     volumes:
       - ./mysql_data:/var/lib/mysql
