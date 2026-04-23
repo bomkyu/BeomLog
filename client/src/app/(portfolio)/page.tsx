@@ -95,7 +95,7 @@ export default function Home() {
             </Typography>
           </div>
           <div className='flex items-end'>
-            <Link href='/' className='text-primary-blue'>
+            <Link href='/blog' className='text-primary-blue'>
               전체 보기
             </Link>
           </div>
@@ -108,7 +108,7 @@ export default function Home() {
             description={
               '실시간 주문 트래킹과 데이터 시각화를 제공하는 B2B 관리자 대시보드를 구축했습니다. 전반적인 성능을 40% 개선했습니다.'
             }
-            src={'/'}
+            src={'blog/0'}
           />
         </div>
       </section>
