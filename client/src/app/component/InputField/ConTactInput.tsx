@@ -1,8 +1,9 @@
 type ConTactInput = {
   label: string;
   placeholder: string;
+  name?: string;
 };
-const ConTactInput = ({ label, placeholder }: ConTactInput) => {
+const ConTactInput = ({ label, placeholder, name }: ConTactInput) => {
   return (
     <div className='flex flex-col w-full gap-2'>
       <label
@@ -14,6 +15,7 @@ const ConTactInput = ({ label, placeholder }: ConTactInput) => {
       <input
         type='text'
         id='nameInput'
+        name={name}
         placeholder={placeholder}
         className='
         w-full
