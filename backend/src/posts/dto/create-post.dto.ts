@@ -19,4 +19,14 @@ export class CreatePostDto {
     required: false,
   })
   thumbnail?: string;
+
+  @ApiProperty({ example: 1, description: '선택한 카테고리의 ID' })
+  categoryId: number;
+
+  @ApiProperty({
+    example: ['Nextjs', 'Nestjs'],
+    description: '태그 리스트',
+    required: false,
+  })
+  tags?: string[];
 }

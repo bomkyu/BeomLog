@@ -1,6 +1,6 @@
 import { Category } from 'src/categories/entities/category.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { Tag } from 'src/tags/entities/tags.entity';
 import {
   Column,
   CreateDateColumn,

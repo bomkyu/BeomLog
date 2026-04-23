@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -18,5 +25,11 @@ export class PostsController {
   @ApiOperation({ summary: '게시글 목록 조회' })
   findAll() {
     return this.postsService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: '게시글 상세 조회' })
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.postsService.findOne(id);
   }
 }
