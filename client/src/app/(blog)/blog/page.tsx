@@ -1,10 +1,9 @@
 import Typography from '@/app/component/Typography';
-import FilterChip from '../components/FilterChip/FilterChip';
-import Card from '../components/Card/Card';
 import Paging from '../components/Paging/Paging';
 import { getCategoriesFromApi, getPostsFromApi } from '@/app/lib/api';
 import FilterChipLayout from '../components/FilterChip/FilterChipLayout';
 import CardLayout from '../components/Card/CardLayout';
+import PagingLayout from '../components/Paging/PagingLayout';
 
 export interface Category {
   id: number;
@@ -53,15 +52,9 @@ const Blog = async ({
       </div>
       <FilterChipLayout categories={categories} />
 
-      <CardLayout data={data} />
+      <CardLayout data={data.posts} />
 
-      <div className='flex justify-center gap-2 mt-16 mb-20'>
-        <Paging num='1' />
-        <Paging num='2' />
-        <Paging num='3' />
-        <Paging num='4' />
-        <Paging num='5' />
-      </div>
+      <PagingLayout totalPages={data.totalPages} currentPage={Number(page)} />
     </div>
   );
 };
