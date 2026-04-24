@@ -52,7 +52,7 @@ const ImageUploadDropzone = ({ onFileSelect }: ImageUploadProps) => {
         px-6 py-10 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-200
         ${
           isDragging
-            ? 'border-blue-500 bg-blue-50'
+            ? 'border-primary-blue bg-blue-50'
             : 'border-slate-300 bg-white hover:bg-slate-50 hover:border-slate-400'
         }
       `}
