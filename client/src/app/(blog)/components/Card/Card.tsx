@@ -1,7 +1,11 @@
 import Typography from '@/app/component/Typography';
 import ImgThumb from '../ImgThumb';
+import { Post } from '../../blog/page';
+import { formattedDatefunc } from '@/app/lib/utils';
+import { CalendarDays, Eye } from 'lucide-react';
+import CardBadge from './CardBadge';
 
-const Card = () => {
+const Card = ({ title, summary, createdAt, views, category }: Post) => {
   return (
     <div className='bg-white rounded-xl overflow-hidden'>
       <div className='relative'>
@@ -9,16 +13,23 @@ const Card = () => {
         <ImgThumb src='test' alt='test' />
       </div>
       <div className='flex flex-col gap-3 p-6 border-b-[#F1F5F9] '>
-        <Typography variant='h3'>개발자를 위한 다크모드 디자인 전략</Typography>
+        <div>
+          <CardBadge color='primary-blue' text={category.name} />
+        </div>
+        <Typography variant='h3'>{title}</Typography>
         <Typography variant='caption' className='text-sm'>
-          RSC가 도입된 배경과 기존 SSR 방식과의 차이 점, 그리고 실제 프로덕션
-          <br />
-          환경에서의 성능 최적 화 사례를 상세히 파헤쳐 봅니다.
+          {summary}
         </Typography>
         <div className='flex pt-4 justify-between border-t border-[#F1F5F9]'>
-          <Typography className='text-xs text-[#64748B]'>2024.05.20</Typography>
-          <div className=''>
-            <Typography className='text-xs text-[#94A3B8]'>1.2k</Typography>
+          <div className='flex gap-1'>
+            <CalendarDays size={14} color='#94A3B8' />
+            <Typography className='text-xs text-[#64748B]'>
+              {formattedDatefunc(createdAt)}
+            </Typography>
+          </div>
+          <div className='flex gap-1'>
+            <Eye size={14} color='#94A3B8' />
+            <Typography className='text-xs text-[#94A3B8]'>{views}</Typography>
           </div>
         </div>
       </div>
