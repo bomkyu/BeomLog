@@ -1,10 +1,8 @@
-import { ReactNode } from 'react';
+import { ComponentPropsWithoutRef, ReactNode } from 'react';
 
-type ButtonsProps = {
+type ButtonsProps = ComponentPropsWithoutRef<'button'> & {
   children: ReactNode;
   btnType: 'primary' | 'secondary' | 'outLine';
-  onClick?: () => void;
-  className?: string;
 };
 
 const baseStyles =
@@ -16,11 +14,11 @@ const typeStylesMap = {
   outLine: 'bg-transparent border border-outline-gray text-gray-800',
 };
 
-const Buttons = ({ children, btnType, className, onClick }: ButtonsProps) => {
+const Buttons = ({ children, btnType, className, ...props }: ButtonsProps) => {
   return (
     <button
-      onClick={onClick}
-      className={`flex justify-center ${baseStyles} ${typeStylesMap[btnType]} ${className}`}
+      className={`flex justify-center items-center ${baseStyles} ${typeStylesMap[btnType]} ${className}`}
+      {...props}
     >
       {children}
     </button>
