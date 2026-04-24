@@ -1,7 +1,8 @@
 const handleCreatePosts = async (formData: FormData) => {
+  const plainTextContent = (formData.get('content') as string) || '';
   const postData = {
     title: formData.get('title') as string,
-    summary: ((formData.get('title') as string) || '').substring(0, 100),
+    summary: plainTextContent.replace(/<[^>]*>/g, '').substring(0, 150),
     content: formData.get('content') as string,
     thumbnail: (formData.get('thumbnail') as string) || '',
     categoryId: Number(formData.get('category')),
@@ -13,8 +14,6 @@ const handleCreatePosts = async (formData: FormData) => {
         .map((t) => t.trim())
         .filter(Boolean) || [],
   };
-
-  // console.log('전송 시도 데이터:', postData);
 
   try {
     const response = await fetch('http://localhost:4000/posts', {
