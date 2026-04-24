@@ -2,8 +2,44 @@ import Typography from '@/app/component/Typography';
 import FilterChip from '../components/FilterChip/FilterChip';
 import Card from '../components/Card/Card';
 import Paging from '../components/Paging/Paging';
+import { getCategoriesFromApi, getPostsFromApi } from '@/app/lib/api';
+import FilterChipLayout from '../components/FilterChip/FilterChipLayout';
+import CardLayout from '../components/Card/CardLayout';
 
-const Blog = () => {
+export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+}
+
+export interface Post {
+  id: number;
+  title: string;
+  summary: string;
+  content: string;
+  thumbnail: string;
+  views: number;
+  createdAt: string;
+  category: Category;
+  tags: Tag[];
+}
+
+const Blog = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; category?: string }>;
+}) => {
+  const { page = '1', category = 'all' } = await searchParams;
+
+  const [data, categories] = await Promise.all([
+    getPostsFromApi(page, category),
+    getCategoriesFromApi(),
+  ]);
+
   return (
     <div className='mt-16'>
       <div className='flex flex-col gap-4 pt-10 mb-12'>
@@ -15,19 +51,10 @@ const Blog = () => {
           깊이 있는 아키텍처 이야기까지 만나보세요.
         </Typography>
       </div>
-      <div className='flex my-10 gap-2 '>
-        <FilterChip />
-        <FilterChip />
-        <FilterChip />
-      </div>
-      <div className='grid grid-cols-3 gap-6'>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-      </div>
+      <FilterChipLayout categories={categories} />
+
+      <CardLayout data={data} />
+
       <div className='flex justify-center gap-2 mt-16 mb-20'>
         <Paging num='1' />
         <Paging num='2' />
