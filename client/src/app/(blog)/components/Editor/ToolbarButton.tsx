@@ -17,7 +17,9 @@ const ToolbarButton = ({
     type='button'
     onClick={onClick}
     className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-      active ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-200'
+      active
+        ? 'bg-primary-blue text-white'
+        : 'text-slate-600 hover:bg-slate-200'
     }`}
   >
     <Icon size={18} strokeWidth={2.5} />
