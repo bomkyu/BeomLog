@@ -22,6 +22,7 @@ services:
 
   # 백엔드 (NestJS)
   backend:
+    container_name: beomlog-backend
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
@@ -33,6 +34,10 @@ services:
       DB_NAME: ${DB_NAME}
     ports:
       - '${BACKEND_PORT}:${BACKEND_PORT}'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./uploads:/app/uploads
     depends_on:
       - db
 
