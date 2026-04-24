@@ -1,13 +1,22 @@
 import Typography from '@/app/component/Typography';
 
 type PagingProps = {
-  num: string;
+  num: number;
+  isActive: boolean;
+  onclick: () => void;
 };
-const Paging = ({ num }: PagingProps) => {
+const Paging = ({ num, isActive, onclick }: PagingProps) => {
+  const buttonStyle = isActive
+    ? 'bg-primary-blue border-primary-blue shadow-lg scale-110 text-white'
+    : 'bg-white border-gray-200 hover:border-primary-blue hover:text-primary-blue';
+
   return (
-    <div className='flex items-center justify-center w-10 h-10 border border-[#E2E8F0] rounded-lg bg-white'>
+    <button
+      onClick={onclick}
+      className={`flex items-center justify-center w-10 h-10 border rounded-lg transition-all duration-200 ${buttonStyle}`}
+    >
       <Typography className='bold'>{num}</Typography>
-    </div>
+    </button>
   );
 };
 export default Paging;
