@@ -4,3 +4,5 @@ mysql_data/
 
 # OS 생성 파일 제외
 .DS_Store
+
+/uploads
