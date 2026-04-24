@@ -2,6 +2,8 @@ import Badge from '@/app/component/Badge';
 import Typography from '@/app/component/Typography';
 import CustoMTextArea from '../../components/Comment/CustomTextArea';
 import Buttons from '@/app/component/Buttons';
+import { formattedDatefunc } from '@/app/lib/utils';
+import { Tag } from '../page';
 
 const getPost = async (slug: string) => {
   const res = await fetch(`http://backend:4000/posts/${slug}`, {
@@ -31,17 +33,6 @@ const BlogViewPage = async ({
     );
   }
 
-  const date = new Date(post.createdAt);
-
-  const formattedDate = date
-    .toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    })
-    .replace(/\s/g, '')
-    .replace(/\.$/, '');
-
   return (
     <div className='max-w-[1280px] w-full m-auto bg-white'>
       <div className='p-4'>
@@ -65,15 +56,22 @@ const BlogViewPage = async ({
         <div>
           <Typography className='text-lg'>서범규</Typography>
           <Typography variant='caption'>
-            Frontend Devloper &#183; {formattedDate}
+            Frontend Devloper &#183; {formattedDatefunc(post.createdAt)}
           </Typography>
         </div>
       </div>
-      <section className='min-h-[1000px] pt-8 px-10 border-t border-b border-[#F1F5F9]'>
+      <section className='pt-8 px-10 border-t border-b border-[#F1F5F9]'>
         <div
           className='prose max-w-none'
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+        <div className='flex gap-2 py-8'>
+          {post.tags.map((tag: Tag) => (
+            <Badge key={tag.id} color='tag'>
+              # {tag.name}
+            </Badge>
+          ))}
+        </div>
       </section>
       <section className='p-10 bg-[#F8FAFC]'>
         <Typography variant='h3'>
