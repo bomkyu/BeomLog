@@ -9,6 +9,7 @@ type BadgeProps = {
 const colorMap = {
   'primary-blue': 'bg-primary-blue/10 text-primary-blue',
   blog: 'bg-primary-blue text-white',
+  tag: 'bg-[#F1F5F9] font-medium',
 } as const;
 
 const Badge = ({ children, color }: BadgeProps) => {
