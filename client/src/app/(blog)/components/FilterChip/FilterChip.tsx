@@ -3,12 +3,26 @@ import { ReactNode } from 'react';
 
 type FilterChipProps = {
   children: ReactNode;
+  categoryId?: string | number;
+  isActive: boolean;
+  onClick: () => void;
 };
-const FilterChip = ({ children }: FilterChipProps) => {
+
+const getFilterChipStyle = (isActive: boolean) =>
+  isActive
+    ? 'bg-primary-blue text-white border-black font-bold'
+    : 'bg-white border-1 border-[#E2E8F0]';
+
+const FilterChip = ({ children, isActive, onClick }: FilterChipProps) => {
   return (
-    <div className='inline-block bg-primary-blue rounded-full px-5 py-2'>
-      <Typography className='text-white'>{children}</Typography>
-    </div>
+    <button
+      className={`inline-block  rounded-full px-5 py-2 transition-all ${getFilterChipStyle(
+        isActive
+      )}`}
+      onClick={onClick}
+    >
+      <Typography>{children}</Typography>
+    </button>
   );
 };
 export default FilterChip;
