@@ -38,3 +38,14 @@ export const getCategoriesFromApi = async () => {
     return [];
   }
 };
+
+/** view페이지 데이터 가져오기 */
+export const getPost = async (slug: string) => {
+  const res = await fetch(`${BASE_URL}/posts/${slug}`, {
+    next: { revalidate: 60 },
+  });
+
+  console.log(res);
+  if (!res.ok) return null;
+  return res.json();
+};
