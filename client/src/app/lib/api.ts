@@ -14,7 +14,7 @@ export const getPostsFromApi = async (
   try {
     const res = await fetch(url.toString(), {
       // 60초 동안 캐시 유지
-      next: { revalidate: 60 },
+      next: { revalidate: 0 },
     });
 
     if (!res.ok) throw new Error('게시글 로드 실패');
@@ -29,7 +29,7 @@ export const getPostsFromApi = async (
 export const getCategoriesFromApi = async () => {
   try {
     const res = await fetch(`${BASE_URL}/categories`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 0 },
     });
     if (!res.ok) throw new Error('카테고리 로드 실패');
     return res.json();
