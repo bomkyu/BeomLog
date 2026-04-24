@@ -1,12 +1,13 @@
 import Typography from '@/app/component/Typography';
+import { ReactNode } from 'react';
 
 type FilterChipProps = {
-  text: string;
+  children: ReactNode;
 };
-const FilterChip = () => {
+const FilterChip = ({ children }: FilterChipProps) => {
   return (
     <div className='inline-block bg-primary-blue rounded-full px-5 py-2'>
-      <Typography className='text-white'>asd</Typography>
+      <Typography className='text-white'>{children}</Typography>
     </div>
   );
 };
