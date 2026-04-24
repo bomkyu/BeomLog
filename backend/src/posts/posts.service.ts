@@ -46,11 +46,32 @@ export class PostsService {
     return await this.postsRepository.save(newPost);
   }
 
-  async findAll() {
-    return await this.postsRepository.find({
-      relations: ['category', 'tags'],
-      order: { id: 'DESC' },
-    });
+  async findAll(query: { page: number; category?: string }) {
+    const take = 6; // 한 페이지에 보여줄 글 개수
+    const skip = (query.page - 1) * take;
+
+    const queryBuilder = this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.category', 'category') // 카테고리 정보 포함
+      .leftJoinAndSelect('post.tags', 'tags') // 태그 정보 포함
+      .orderBy('post.createdAt', 'DESC') // 최신순 정렬
+      .skip(skip)
+      .take(take);
+
+    // 카테고리 필터링 logic
+    if (query.category) {
+      // 카테고리 ID 혹은 이름으로 필터링
+      queryBuilder.andWhere('category.id = :categoryId', {
+        categoryId: query.category,
+      });
+    }
+
+    const [posts, total] = await queryBuilder.getManyAndCount();
+
+    return {
+      posts,
+      totalPages: Math.ceil(total / take),
+    };
   }
 
   // 상세 보기 (ID로 하나만 가져오기)
