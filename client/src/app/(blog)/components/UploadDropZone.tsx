@@ -1,86 +1,135 @@
+'use client';
+
 import { BLOG_ICON_MAP } from '@/app/component/icons';
 import Image from 'next/image';
-import React, { ChangeEvent, DragEvent, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  DragEvent,
+  useRef,
+  useState,
+  useEffect,
+} from 'react';
+import { X } from 'lucide-react'; // 닫기 아이콘용
+
 interface ImageUploadProps {
-  onFileSelect?: (file: File) => void;
+  onFileSelect?: (file: File | null) => void;
 }
 
 const ImageUploadDropzone = ({ onFileSelect }: ImageUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null); // 미리보기 URL 상태
 
-  // 클릭 시 파일 선택창 열기
-  const handleClick = () => {
-    fileInputRef.current?.click();
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  const handleUpload = (file: File) => {
+    if (!file.type.startsWith('image/')) return;
+
+    // 미리보기 URL 생성
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+    onFileSelect?.(file);
   };
 
-  // 파일 선택 완료 시
+  const handleClick = () => {
+    if (!previewUrl) fileInputRef.current?.click();
+  };
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files && files[0]) {
-      onFileSelect?.(files[0]);
-    }
-  };
-
-  // 드래그 앤 드롭 핸들러
-  const onDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const onDragLeave = () => {
-    setIsDragging(false);
+    if (files?.[0]) handleUpload(files[0]);
   };
 
   const onDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
     const files = e.dataTransfer.files;
-    if (files && files[0]) {
-      onFileSelect?.(files[0]);
-    }
+    if (files?.[0]) handleUpload(files[0]);
+  };
+
+  // 이미지 삭제 핸들러
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
+    onFileSelect?.(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   return (
-    <div
-      onClick={handleClick}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-      className={`
+    <div className='w-full'>
+      <div
+        onClick={handleClick}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+        }}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={onDrop}
+        className={`
         relative flex flex-col items-center justify-center w-full h-[220px] 
-        px-6 py-10 border-2 border-dashed rounded-xl cursor-pointer transition-colors duration-200
+        border-2 border-dashed rounded-xl overflow-hidden transition-all duration-200
         ${
           isDragging
-            ? 'border-primary-blue bg-blue-50'
-            : 'border-slate-300 bg-white hover:bg-slate-50 hover:border-slate-400'
+            ? 'border-primary-blue bg-blue-50 scale-[1.01]'
+            : 'border-slate-300 bg-white'
+        }
+        ${
+          !previewUrl
+            ? 'cursor-pointer hover:bg-slate-50 hover:border-slate-400'
+            : ''
         }
       `}
-    >
-      <Image
-        src={BLOG_ICON_MAP['cloud-icon']}
-        alt={`메일 icon`}
-        priority={true}
-      />
+      >
+        {previewUrl ? (
+          /* 이미지 미리보기 모드 */
+          <div className='relative w-full h-full group'>
+            <img
+              src={previewUrl}
+              alt='Preview'
+              className='w-full h-full object-cover'
+            />
+            {/* 삭제 버튼 오버레이 */}
+            <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'>
+              <button
+                onClick={handleRemove}
+                className='p-2 bg-white rounded-full text-slate-700 hover:bg-red-50 hover:text-red-500 transition-colors'
+              >
+                <X size={24} />
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* 기본 업로드 대기 모드 */
+          <>
+            <Image
+              src={BLOG_ICON_MAP['cloud-icon']}
+              alt='upload icon'
+              priority={true}
+            />
+            <div className='text-center mt-2'>
+              <p className='text-lg font-medium text-slate-700 mb-1'>
+                클릭하여 업로드 또는 드래그 앤 드롭
+              </p>
+              <p className='text-sm text-slate-400 uppercase tracking-tight'>
+                PNG, JPG or WEBP (권장 1200×630)
+              </p>
+            </div>
+          </>
+        )}
 
-      {/* 텍스트 영역 */}
-      <div className='text-center'>
-        <p className='text-lg font-medium text-slate-700 mb-1'>
-          클릭하여 업로드 또는 드래그 앤 드롭
-        </p>
-        <p className='text-sm text-slate-400 uppercase tracking-tight'>
-          PNG, JPG or WEBP (권장 1200×630)
-        </p>
+        <input
+          type='file'
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className='hidden'
+          accept='image/png, image/jpeg, image/webp'
+        />
       </div>
-
-      {/* 숨겨진 Input */}
-      <input
-        type='file'
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        className='hidden'
-        accept='image/png, image/jpeg, image/webp'
-      />
     </div>
   );
 };
