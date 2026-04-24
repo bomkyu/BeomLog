@@ -4,16 +4,8 @@ import CustoMTextArea from '../../components/Comment/CustomTextArea';
 import Buttons from '@/app/component/Buttons';
 import { formattedDatefunc } from '@/app/lib/utils';
 import { Tag } from '../page';
-
-const getPost = async (slug: string) => {
-  const res = await fetch(`http://backend:4000/posts/${slug}`, {
-    next: { revalidate: 60 },
-  });
-
-  console.log(res);
-  if (!res.ok) return null;
-  return res.json();
-};
+import Image from 'next/image';
+import { getPost } from '@/app/lib/api';
 
 const BlogViewPage = async ({
   params,
@@ -22,7 +14,6 @@ const BlogViewPage = async ({
 }) => {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-
   const post = await getPost(slug);
 
   if (!post) {
@@ -37,11 +28,11 @@ const BlogViewPage = async ({
     <div className='max-w-[1280px] w-full m-auto bg-white'>
       <div className='p-4'>
         <div className='flex relative w-full h-100 rounded-xl overflow-hidden'>
-          <img
-            className='w-full'
-            src={
-              'https://mblogthumb-phinf.pstatic.net/MjAxNzExMDJfMjcw/MDAxNTA5NjAwODE2MTQy.Oj3_gbsZJyiVChB95iRgSLXEkAEijQgSUIeV70CM_nog.Lt52w9uwt8JGnHPDJTMH2-BZ05mOKIOufg62tHF6kOkg.PNG.brightly29/2017-11-02_14%3B32%3B32.PNG?type=w800'
-            }
+          <Image
+            src={post.thumbnail}
+            alt={`${post.title}이미지`}
+            fill
+            unoptimized
           />
           <div className='absolute flex flex-col gap-2 w-full bottom-0 left-0 p-10'>
             <Badge color={'blog'}>{post.category.name}</Badge>
