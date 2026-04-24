@@ -15,6 +15,8 @@ services:
       - WATCHPACK_POLLING=true
       - NEXT_WEBPACK_USEPOLLING=1
       - NODE_ENV=development
+      - BACKEND_INTERNAL_URL=${BACKEND_INTERNAL_URL}
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
     depends_on:
       - backend
 
