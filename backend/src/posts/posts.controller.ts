@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
@@ -21,15 +22,20 @@ export class PostsController {
     return this.postsService.create(createPostDto);
   }
 
-  @Get()
-  @ApiOperation({ summary: '게시글 목록 조회' })
-  findAll() {
-    return this.postsService.findAll();
-  }
-
   @Get(':id')
   @ApiOperation({ summary: '게시글 상세 조회' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.findOne(id);
+  }
+
+  @Get()
+  async getPosts(
+    @Query('page') page: string = '1',
+    @Query('category') category?: string,
+  ) {
+    return this.postsService.findAll({
+      page: Number(page),
+      category: category === 'all' ? undefined : category,
+    });
   }
 }
