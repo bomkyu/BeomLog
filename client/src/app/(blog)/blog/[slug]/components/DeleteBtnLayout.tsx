@@ -14,7 +14,7 @@ const handleDelete = async (id: number) => {
 const DeleteBtnLayout = ({ id }: DeleteBtnLayoutProps) => {
   return (
     <Buttons
-      btnType='PostAction'
+      btnType='postAction'
       className='bg-[#FEF2F2]'
       onClick={() => handleDelete(id)}
     >
