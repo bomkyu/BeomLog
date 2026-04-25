@@ -83,4 +83,19 @@ export class PostsService {
     if (!post) throw new NotFoundException('존재하지 않는 게시글입니다.');
     return post;
   }
+
+  //삭제로직
+  async remove(id: number): Promise<boolean> {
+    // 1. 글이 있는지 확인
+    const post = await this.postsRepository.findOneBy({ id });
+
+    if (!post) {
+      throw new NotFoundException(`${id}번 게시글을 찾을 수 없습니다. ㅠ`);
+    }
+
+    // 2. 삭제 (softDelete를 쓸지, 진짜 날릴(delete)지 결정하세요! ㅋ)
+    await this.postsRepository.delete(id);
+
+    return true;
+  }
 }
