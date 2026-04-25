@@ -36,12 +36,13 @@ const BlogViewPage = async ({
             fill
             unoptimized
           />
-          <div className='absolute flex flex-col gap-2 w-full bottom-0 left-0 p-10'>
+          <div className='absolute w-full h-full inset-0 bg-linear-[to_top,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0)_50%]' />
+
+          <div className='absolute flex flex-col gap-2 w-full bottom-0 left-0 p-10 z-40'>
             <Badge color={'blog'}>{post.category.name}</Badge>
             <Typography variant='h1' className='text-white'>
               {post.title}
             </Typography>
-            <div className='absolute w-full h-full inset-0 bg-linear-[to_top,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0)_50%]' />
           </div>
         </div>
       </div>
