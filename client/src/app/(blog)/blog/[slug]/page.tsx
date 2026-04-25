@@ -6,6 +6,8 @@ import { formattedDatefunc } from '@/app/lib/utils';
 import { Tag } from '../page';
 import Image from 'next/image';
 import { getPost } from '@/app/lib/api';
+import { Pencil } from 'lucide-react';
+import DeleteBtnLayout from './components/DeleteBtnLayout';
 
 const BlogViewPage = async ({
   params,
@@ -43,12 +45,19 @@ const BlogViewPage = async ({
           </div>
         </div>
       </div>
-      <div className='p-10'>
+      <div className='flex justify-between p-10'>
         <div>
           <Typography className='text-lg'>서범규</Typography>
           <Typography variant='caption'>
             Frontend Devloper &#183; {formattedDatefunc(post.createdAt)}
           </Typography>
+        </div>
+        <div className='flex gap-2'>
+          <Buttons btnType='PostAction' className='bg-[#F1F5F9]'>
+            <Pencil size={14} />
+            <Typography className='text-sm'>수정</Typography>
+          </Buttons>
+          <DeleteBtnLayout id={post.id} />
         </div>
       </div>
       <section className='pt-8 px-10 border-t border-b border-[#F1F5F9]'>
