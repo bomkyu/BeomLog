@@ -8,6 +8,7 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  Delete,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
@@ -62,5 +63,16 @@ export class PostsController {
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     const imageUrl = `http://localhost:4000/uploads/${file.filename}`;
     return { url: imageUrl };
+  }
+
+  @Delete(':id')
+  // ParseIntPipe를 쓰면 id가 숫자인지 자동으로 검증
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    await this.postsService.remove(id);
+
+    return {
+      success: true,
+      message: `${id}번 게시글이 삭제되었습니다.`,
+    };
   }
 }
