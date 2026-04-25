@@ -32,7 +32,7 @@ const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
       Image.configure({
         allowBase64: true,
         HTMLAttributes: {
-          class: 'rounded-lg max-w-full h-auto border border-slate-200',
+          class: 'mx-auto rounded-lg max-w-full h-auto border border-slate-200',
         },
       }),
       Placeholder.configure({
