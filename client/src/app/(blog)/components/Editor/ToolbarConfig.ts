@@ -1,3 +1,4 @@
+import { uploadImageApi } from '@/app/lib/api';
 import { Editor } from '@tiptap/react';
 import {
   Bold,
@@ -95,17 +96,31 @@ export const alignOptions: ToolbarConfig[] = (
   isActive: (editor) => editor.isActive({ textAlign: item.alignment }),
 }));
 
-export const mediaOptions: ToolbarConfig[] = [
+export const mediaOptions = [
   {
+    text: '이미지',
     icon: ImageIcon,
-    text: '이미지 삽입',
-    action: (editor) => {
-      const url = window.prompt('이미지 URL을 입력하세요:');
-      if (url) {
-        return editor.chain().focus().setImage({ src: url }).run();
-      }
-      return false;
+    isActive: (editor: Editor) => editor.isActive('image'),
+    action: async (editor: Editor) => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+
+      input.onchange = async () => {
+        const file = input.files?.[0];
+        if (file) {
+          try {
+            const { url } = await uploadImageApi(file);
+
+            editor.chain().focus().setImage({ src: url }).run();
+          } catch (error) {
+            console.error('이미지 업로드 실패:', error);
+            alert('이미지 업로드에 실패했습니다.');
+          }
+        }
+      };
+
+      input.click();
     },
-    isActive: (editor) => editor.isActive('image'),
   },
 ];
