@@ -118,3 +118,16 @@ export const uploadImageApi = async (file: File): Promise<UploadResponse> => {
 
   return response.json();
 };
+
+/** 삭제 APi */
+export const deletePostApi = async (postId: number) => {
+  const res = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    throw new Error('게시글 삭제에 실패했습니다.');
+  }
+
+  return res.json();
+};
