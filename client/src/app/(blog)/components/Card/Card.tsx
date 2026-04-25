@@ -16,15 +16,17 @@ const Card = ({
   return (
     <div className='bg-white rounded-xl overflow-hidden'>
       <div className='relative'>
-        <div className='absolute w-full h-full left-0 top-0 inset-0 bg-linear-[to_bottom,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_100%] z-50' />
         <ImgThumb src={thumbnail} alt='test' />
+        <div className='absolute w-full h-full left-0 top-0 inset-0 bg-linear-[to_bottom,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_100%] z-50' />
       </div>
       <div className='flex flex-col gap-3 p-6 border-b-[#F1F5F9] '>
         <div>
           <CardBadge color='primary-blue' text={category.name} />
         </div>
-        <Typography variant='h3'>{title}</Typography>
-        <Typography variant='caption' className='text-sm'>
+        <Typography variant='h3' className='line-clamp-2'>
+          {title}
+        </Typography>
+        <Typography variant='caption' className='text-sm line-clamp-3'>
           {summary}
         </Typography>
         <div className='flex pt-4 justify-between border-t border-[#F1F5F9]'>
