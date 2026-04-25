@@ -53,7 +53,7 @@ const BlogViewPage = async ({
           </Typography>
         </div>
         <div className='flex gap-2'>
-          <Buttons btnType='PostAction' className='bg-[#F1F5F9]'>
+          <Buttons btnType='postAction' className='bg-[#F1F5F9]'>
             <Pencil size={14} />
             <Typography className='text-sm'>수정</Typography>
           </Buttons>
