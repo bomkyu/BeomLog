@@ -10,6 +10,7 @@ import { Comment } from './comments/entities/comment.entity';
 import { PostsModule } from './posts/posts.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TagsModule } from './tags/tags.module';
     PostsModule,
     CategoriesModule,
     TagsModule,
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
