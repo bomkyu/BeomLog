@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
@@ -16,6 +17,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @ApiTags('posts') // Swagger에서 'posts' 그룹화
 @Controller('posts')
@@ -74,5 +76,14 @@ export class PostsController {
       success: true,
       message: `${id}번 게시글이 삭제되었습니다.`,
     };
+  }
+
+  // Update 로직
+  @Patch(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
+    return await this.postsService.update(id, updatePostDto);
   }
 }
