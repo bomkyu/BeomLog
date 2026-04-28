@@ -43,7 +43,7 @@ export const getCategoriesFromApi = async () => {
 /** view페이지 데이터 가져오기 */
 export const getPost = async (slug: string) => {
   const res = await fetch(`${BASE_URL}/posts/${slug}`, {
-    next: { revalidate: 60 },
+    next: { revalidate: 0 },
   });
 
   console.log(res);
@@ -76,25 +76,21 @@ export const handleCreatePosts = async (
   try {
     const response = await fetch(`${BASE_URL}/posts`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData),
     });
 
     if (response.ok) {
-      // const result = await response.json();
-      // console.log('DB 저장 성공:', result);
-      // alert('게시글이 성공적으로 등록되었습니다! 🚀');
       return true;
     } else {
       const errorData = await response.json();
-      // console.error('저장 실패:', errorData);
       alert(`실패: ${errorData.message || '알 수 없는 에러'}`);
+      return false;
     }
   } catch (error) {
     console.error('네트워크 에러:', error);
     alert('서버와 연결할 수 없습니다.');
+    return false;
   }
 };
 
@@ -130,4 +126,34 @@ export const deletePostApi = async (postId: number) => {
   }
 
   return res.json();
+};
+
+/** 게시글 수정 API (JSON 방식) */
+export const handleUpdatePost = async (
+  postId: number,
+  formData: FormData,
+  additionalData: { content: string; thumbnail: string }
+) => {
+  const updateData = {
+    title: formData.get('title'),
+    categoryId: Number(formData.get('category')),
+    tags:
+      formData
+        .get('tags')
+        ?.toString()
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean) || [],
+    content: additionalData.content,
+    thumbnail: additionalData.thumbnail,
+  };
+
+  const response = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updateData), // 이제 이 안에 tags는 ["ada", "Ang"] 배열임 ㅋ
+  });
+
+  if (!response.ok) throw new Error('수정 실패 ㅠ');
+  return true;
 };
