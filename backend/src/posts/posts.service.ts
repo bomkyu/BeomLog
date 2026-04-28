@@ -5,6 +5,8 @@ import { Post } from './entities/post.entity';
 import { TagsService } from 'src/tags/tag.service';
 import { CategoriesService } from 'src/categories/categories.service';
 import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
+import { Tag } from 'src/tags/entities/tags.entity';
 
 @Injectable()
 export class PostsService {
@@ -13,6 +15,9 @@ export class PostsService {
     private postsRepository: Repository<Post>,
     private readonly tagsService: TagsService,
     private readonly categoriesService: CategoriesService,
+
+    @InjectRepository(Tag)
+    private readonly tagsRepository: Repository<Tag>,
   ) {}
 
   async create(createPostDto: CreatePostDto) {
@@ -90,12 +95,50 @@ export class PostsService {
     const post = await this.postsRepository.findOneBy({ id });
 
     if (!post) {
-      throw new NotFoundException(`${id}번 게시글을 찾을 수 없습니다. ㅠ`);
+      throw new NotFoundException(`${id}번 게시글을 찾을 수 없습니다.`);
     }
 
-    // 2. 삭제 (softDelete를 쓸지, 진짜 날릴(delete)지 결정하세요! ㅋ)
+    // 2. 삭제
     await this.postsRepository.delete(id);
 
     return true;
+  }
+
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    const { tags, ...rest } = updatePostDto;
+
+    // 1. relations 옵션으로 기존 태그를 같이 메모리에 올려야 함!
+    const post = await this.postsRepository.findOne({
+      where: { id: Number(id) },
+      relations: ['tags'],
+    });
+
+    if (!post) throw new NotFoundException('게시글이 없어요.');
+
+    // 2. 일반 필드(title, content 등) 업데이트
+    Object.assign(post, rest);
+
+    if (tags) {
+      const tagEntities = await Promise.all(
+        tags.map(async (tagName: string) => {
+          // 💡 1. 일단 DB에 이 태그가 있는지 기막히게 찾아봅니다.
+          let tag = await this.tagsRepository.findOneBy({ name: tagName });
+
+          // 💡 2. 없을 때만 새로 만듭니다! (이미 있으면 위에서 찾은 tag를 그대로 사용)
+          if (!tag) {
+            tag = this.tagsRepository.create({ name: tagName });
+            // cascade 설정이 불안하면 안전하게 미리 저장
+            tag = await this.tagsRepository.save(tag);
+          }
+
+          return tag;
+        }),
+      );
+
+      post.tags = tagEntities;
+    }
+
+    // 4. 최종 저장
+    return await this.postsRepository.save(post);
   }
 }
