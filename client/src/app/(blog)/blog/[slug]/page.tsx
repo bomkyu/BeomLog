@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { getPost } from '@/app/lib/api';
 import { Pencil } from 'lucide-react';
 import DeleteBtnLayout from './components/DeleteBtnLayout';
+import Link from 'next/link';
 
 const BlogViewPage = async ({
   params,
@@ -54,10 +55,13 @@ const BlogViewPage = async ({
           </Typography>
         </div>
         <div className='flex gap-2'>
-          <Buttons btnType='postAction' className='bg-[#F1F5F9]'>
-            <Pencil size={14} />
-            <Typography className='text-sm'>수정</Typography>
-          </Buttons>
+          <Link href={`/blog/edit/${post.id}`}>
+            <Buttons btnType='postAction' className='bg-[#F1F5F9]'>
+              <Pencil size={14} />
+              <Typography className='text-sm'>수정</Typography>
+            </Buttons>
+          </Link>
+
           <DeleteBtnLayout id={post.id} />
         </div>
       </div>
