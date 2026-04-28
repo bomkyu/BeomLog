@@ -27,7 +27,6 @@ export class PostsService {
       content,
       categoryId,
       tags: tagNames,
-      thumbnail,
     } = createPostDto;
 
     // 1. 태그 처리: 있으면 가져오고 없으면 생성 (TagsService 활용)
