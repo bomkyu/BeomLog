@@ -13,12 +13,18 @@ import { X } from 'lucide-react'; // 닫기 아이콘용
 
 interface ImageUploadProps {
   onFileSelect?: (file: File | null) => void;
+  initialImage?: string;
 }
 
-const ImageUploadDropzone = ({ onFileSelect }: ImageUploadProps) => {
+const ImageUploadDropzone = ({
+  onFileSelect,
+  initialImage,
+}: ImageUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null); // 미리보기 URL 상태
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    initialImage || null
+  ); // 미리보기 URL 상태
 
   useEffect(() => {
     return () => {
