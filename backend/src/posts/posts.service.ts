@@ -42,7 +42,6 @@ export class PostsService {
       title,
       summary: summary || title || '요약 없음',
       content,
-      thumbnail,
       category: { id: categoryId }, // ID만으로 관계 연결 가능
       tags, // 위에서 처리한 태그 객체 배열 연결
     });
