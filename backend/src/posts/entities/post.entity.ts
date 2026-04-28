@@ -1,5 +1,7 @@
 import { Category } from 'src/categories/entities/category.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
+import { PostImage } from 'src/images/entities/image.entity';
+
 import { Tag } from 'src/tags/entities/tags.entity';
 import {
   Column,
@@ -26,9 +28,6 @@ export class Post {
   @Column({ type: 'longtext' })
   content: string;
 
-  @Column({ nullable: true })
-  thumbnail: string;
-
   @Column({ default: 0 })
   views: number;
 
@@ -44,4 +43,7 @@ export class Post {
 
   @OneToMany(() => Comment, (comment: Comment) => comment.post)
   comments: Comment[];
+
+  @OneToMany(() => PostImage, (PostImage) => PostImage.post)
+  images: PostImage[];
 }
