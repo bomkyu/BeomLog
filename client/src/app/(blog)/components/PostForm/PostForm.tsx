@@ -18,21 +18,28 @@ import Buttons from '@/app/component/Buttons';
 import { useRouter } from 'next/navigation';
 import { formatTagsToString } from '@/app/lib/utils';
 
+type PostImage = {
+  id?: number;
+  url: string;
+  isThumbnail: boolean;
+};
+
 type IPost = {
   id: number;
   title: string;
   category: { id: number; name: string };
   tags: { id: number; name: string }[];
   content: string;
-  thumbnail: string;
+  images: PostImage[];
 };
+
 type WriteFormData = {
   id?: number;
   title: string;
   category: number;
   tags: string;
   content: string;
-  thumbnail: string;
+  images: PostImage[];
 };
 
 type PostFormProps = {
@@ -62,7 +69,7 @@ const PostForm = ({ initialData }: PostFormProps) => {
       category: initialData?.category?.id || 0,
       tags: formatTagsToString(initialData?.tags),
       content: initialData?.content || '',
-      thumbnail: initialData?.thumbnail || '',
+      images: initialData?.images || [],
     },
   });
 
@@ -75,54 +82,87 @@ const PostForm = ({ initialData }: PostFormProps) => {
       const formattedTags = formatTagsToString(initialData.tags);
       const catId = initialData.category.id;
 
-      console.log(catId);
+      // 서버에서 온 images(PostImage[])를 폼에서 쓸 형식으로 매핑
+      const mappedImages =
+        initialData.images?.map((img) => ({
+          url: img.url,
+          isThumbnail: img.isThumbnail,
+        })) || [];
+
+      // console.log(catId);
       reset({
         ...initialData,
         tags: formattedTags,
         category: catId,
+        images: mappedImages,
       });
 
-      setValue('category', catId);
-      setValue('content', initialData.content);
-      setValue('thumbnail', initialData.thumbnail);
+      // setValue('category', catId);
+      // setValue('content', initialData.content);
+      // const urls = initialData.images?.map((img) => img.url) || [];
+      // setValue('images', urls);
     }
   }, [initialData, reset, setValue, categories]);
 
   // 저장 로직 (RHF의 handleSubmit을 통과해야 실행됨)
   const onValid = async (data: WriteFormData) => {
-    // 1. 폼 데이터 외의 필수값 최종 체크
+    // 1. 본문 내용 체크
     if (!data.content || data.content === '<p></p>') {
       alert('내용을 입력해야 포스팅이 완성됩니다!');
       return;
     }
-    if (!data.thumbnail) {
-      alert('썸네일 이미지를 올려주세요!');
+
+    if (!data.images || data.images.length === 0) {
+      alert('대표 이미지를 올려주세요!');
       return;
     }
 
     try {
       setIsUploading(true);
 
+      const contentHtml = data.content;
+      const imgRegExp = /<img[^>]+src=["']([^"']+)["'][^>]*>/g;
+      const currentUrlsInContent: string[] = [];
+      let match;
+      while ((match = imgRegExp.exec(contentHtml)) !== null) {
+        currentUrlsInContent.push(match[1]);
+      }
+
+      // 2. 기존 data.images 중에서 본문에 여전히 존재하거나, 썸네일인 녀석들만 필터링
+      const finalImages = data.images.filter(
+        (img) => currentUrlsInContent.includes(img.url) || img.isThumbnail
+      );
+
+      // 3. 만약 본문에 새로 추가된 이미지가 있는데 data.images에 없다면 추가해야함
+      currentUrlsInContent.forEach((url) => {
+        if (!finalImages.some((img) => img.url === url)) {
+          finalImages.push({ url, isThumbnail: false });
+        }
+      });
+
       const formData = new FormData();
       formData.append('title', data.title);
       formData.append('category', String(data.category));
       formData.append('tags', data.tags);
 
+      const postPayload = {
+        content: data.content,
+        images: finalImages,
+      };
+
       let isSuccess = false;
 
-      if (isEditMode && initialData.id) {
+      if (isEditMode && initialData?.id) {
         // PATCH 요청
-        isSuccess = await handleUpdatePost(initialData.id, formData, {
-          content: data.content,
-          thumbnail: data.thumbnail,
-        });
+        isSuccess = await handleUpdatePost(
+          initialData.id,
+          formData,
+          postPayload
+        );
         if (isSuccess) alert('수정되었습니다!');
       } else {
-        //  POST 요청
-        isSuccess = await handleCreatePosts(formData, {
-          content: data.content,
-          thumbnail: data.thumbnail,
-        });
+        // POST 요청
+        isSuccess = await handleCreatePosts(formData, postPayload);
         if (isSuccess) alert('등록되었습니다!');
       }
 
@@ -205,16 +245,24 @@ const PostForm = ({ initialData }: PostFormProps) => {
               대표 이미지 (썸네일)
             </Typography>
             <ImageUploadDropzone
-              initialImage={watch('thumbnail')}
+              // 미리보기는 images 배열의 첫 번째 요소의 url
+              initialImage={watch('images')?.[0]?.url || ''}
               onFileSelect={async (file) => {
                 if (file) {
                   const { url } = await uploadImageApi(file);
-                  setValue('thumbnail', url, { shouldValidate: true });
+                  const newImage = {
+                    url: url,
+                    isThumbnail: true,
+                  };
+
+                  setValue('images', [newImage], { shouldValidate: true });
                 }
               }}
             />
-            {errors.thumbnail && (
-              <p className='text-xs text-red-500 ml-1'>이미지는 필수입니다!</p>
+            {errors.images && (
+              <p className='text-xs text-red-500 ml-1'>
+                대표 이미지는 필수입니다!
+              </p>
             )}
           </div>
 
