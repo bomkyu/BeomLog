@@ -30,3 +30,21 @@ export const formatTagsToString = (
       .join(', ');
   }
 };
+
+// HTML 본문에서 이미지 URL을 추출하여 객체 배열로 반환
+export const extractImagesFromContent = (
+  content: string
+): { url: string; isThumbnail: boolean }[] => {
+  const imgRegex = /<img[^>]+src="([^">]+)"/g;
+  const images: { url: string; isThumbnail: boolean }[] = [];
+  let match;
+
+  while ((match = imgRegex.exec(content)) !== null) {
+    images.push({
+      url: match[1],
+      isThumbnail: false, // 본문 이미지는 기본적으로 false
+    });
+  }
+
+  return images;
+};
