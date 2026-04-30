@@ -41,6 +41,12 @@ const ImageUploadDropzone = ({
     onFileSelect?.(file);
   };
 
+  const getImgSrc = () => {
+    if (!previewUrl) return '';
+    if (previewUrl.startsWith('blob:')) return previewUrl;
+    return `${process.env.NEXT_PUBLIC_BACKEND_URL + previewUrl}`;
+  };
+
   const handleClick = () => {
     if (!previewUrl) fileInputRef.current?.click();
   };
@@ -95,7 +101,7 @@ const ImageUploadDropzone = ({
           /* 이미지 미리보기 모드 */
           <div className='relative w-full h-full group'>
             <img
-              src={previewUrl}
+              src={getImgSrc()}
               alt='Preview'
               className='w-full h-full object-cover'
             />
