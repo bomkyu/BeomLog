@@ -7,6 +7,8 @@ import { CategoriesService } from 'src/categories/categories.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Tag } from 'src/tags/entities/tags.entity';
+import { PostImage } from 'src/images/entities/image.entity';
+import { ImagesService } from 'src/images/images.service';
 
 @Injectable()
 export class PostsService {
@@ -18,6 +20,11 @@ export class PostsService {
 
     @InjectRepository(Tag)
     private readonly tagsRepository: Repository<Tag>,
+
+    @InjectRepository(PostImage)
+    private readonly imagesRepository: Repository<PostImage>,
+
+    private readonly imagesService: ImagesService,
   ) {}
 
   async create(createPostDto: CreatePostDto) {
@@ -27,6 +34,7 @@ export class PostsService {
       content,
       categoryId,
       tags: tagNames,
+      images,
     } = createPostDto;
 
     // 1. 태그 처리: 있으면 가져오고 없으면 생성 (TagsService 활용)
@@ -45,8 +53,31 @@ export class PostsService {
       tags, // 위에서 처리한 태그 객체 배열 연결
     });
 
-    // 3. 최종 저장
-    return await this.postsRepository.save(newPost);
+    const savedPost = await this.postsRepository.save(newPost);
+
+    // 4. 이미지 처리: 저장된 post와 관계를 맺어주며 images 테이블에 저장
+    if (images && images.length > 0) {
+      const imageEntities = images.map((img) => {
+        let urlPath = img.url;
+        try {
+          if (img.url.startsWith('http')) {
+            urlPath = new URL(img.url).pathname; // 도메인 제거 로직
+          }
+        } catch (e) {
+          console.error('URL 변환 중 에러 발생', e);
+        }
+
+        return this.imagesRepository.create({
+          url: urlPath,
+          isThumbnail: img.isThumbnail,
+          post: savedPost,
+        });
+      });
+
+      await this.imagesRepository.save(imageEntities);
+    }
+
+    return savedPost;
   }
 
   async findAll(query: { page: number; category?: string }) {
@@ -81,7 +112,7 @@ export class PostsService {
   async findOne(id: number) {
     const post = await this.postsRepository.findOne({
       where: { id },
-      relations: ['category', 'tags'],
+      relations: ['category', 'tags', 'images'],
     });
     if (!post) throw new NotFoundException('존재하지 않는 게시글입니다.');
     return post;
@@ -90,22 +121,31 @@ export class PostsService {
   //삭제로직
   async remove(id: number): Promise<boolean> {
     // 1. 글이 있는지 확인
-    const post = await this.postsRepository.findOneBy({ id });
+    const post = await this.postsRepository.findOne({
+      where: { id },
+      relations: ['images'], // upload폴더 이미지 삭제를위해 관계추가
+    });
 
-    if (!post) {
+    if (!post)
       throw new NotFoundException(`${id}번 게시글을 찾을 수 없습니다.`);
+
+    // 2. 서버에서 실제 파일들 삭제
+    if (post.images && post.images.length > 0) {
+      for (const img of post.images) {
+        await this.imagesService.removeImageFile(img.url);
+      }
     }
 
-    // 2. 삭제
+    // 3. DB에서 게시글 삭제
     await this.postsRepository.delete(id);
 
     return true;
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
-    const { tags, ...rest } = updatePostDto;
+    const { tags, images, ...rest } = updatePostDto;
 
-    // 1. relations 옵션으로 기존 태그를 같이 메모리에 올려야 함!
+    // 1. relations 옵션으로 기존 태그를 같이 메모리에 올림
     const post = await this.postsRepository.findOne({
       where: { id: Number(id) },
       relations: ['tags'],
@@ -119,10 +159,10 @@ export class PostsService {
     if (tags) {
       const tagEntities = await Promise.all(
         tags.map(async (tagName: string) => {
-          // 💡 1. 일단 DB에 이 태그가 있는지 기막히게 찾아봅니다.
+          // DB에 이 태그가 있는지 찾아봄
           let tag = await this.tagsRepository.findOneBy({ name: tagName });
 
-          // 💡 2. 없을 때만 새로 만듭니다! (이미 있으면 위에서 찾은 tag를 그대로 사용)
+          // 없을 때만 새로 만들고 이미 있으면 위에서 찾은 tag를 그대로 사용
           if (!tag) {
             tag = this.tagsRepository.create({ name: tagName });
             // cascade 설정이 불안하면 안전하게 미리 저장
@@ -134,6 +174,57 @@ export class PostsService {
       );
 
       post.tags = tagEntities;
+    }
+
+    if (images) {
+      // DB에 저장된 기존 이미지들 가져오기
+      const existingImages = await this.imagesRepository.find({
+        where: { postsId: Number(id) },
+      });
+      const newImageUrls = images.map((img) => {
+        try {
+          return new URL(img.url).pathname; // 도메인 뺴고 경로만 추출
+        } catch {
+          return img.url; // 이미 상대경로면 그대로 사용
+        }
+      });
+
+      console.log('newImageUrlsnewImageUrlsnewImageUrls //', newImageUrls);
+
+      // 진짜로 삭제된 이미지(서버에서 지워야 할 파일)들 추출
+      const imagesToDelete = existingImages.filter(
+        (img) => !newImageUrls.includes(img.url),
+      );
+      console.log(
+        '진짜로 삭제된 이미지(서버에서 지워야 할 파일)들 추출',
+        imagesToDelete,
+      );
+
+      // 실제 파일 삭제 실행
+      for (const img of imagesToDelete) {
+        console.log(`[파일삭제] ${img.url} 지우는 중...`);
+        await this.imagesService.removeImageFile(img.url);
+      }
+
+      // 기존 DB 레코드 정리
+      await this.imagesRepository.delete({ postsId: Number(id) });
+
+      // 새 이미지 레코드 저장 (사용자가 유지한 것 + 새로 추가한 것)
+      if (images.length > 0) {
+        const imageEntities = images.map((img) => {
+          const urlPath = img.url.startsWith('http')
+            ? new URL(img.url).pathname
+            : img.url;
+
+          return this.imagesRepository.create({
+            url: urlPath,
+            isThumbnail: img.isThumbnail,
+            postsId: Number(id),
+          });
+        });
+        await this.imagesRepository.save(imageEntities);
+        console.log(`${id}번 게시글 이미지 업데이트 완료`);
+      }
     }
 
     // 4. 최종 저장
