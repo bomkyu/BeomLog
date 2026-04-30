@@ -11,6 +11,7 @@ import { PostsModule } from './posts/posts.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
 import { ImagesModule } from './images/images.module';
+import { PostImage } from './images/entities/image.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { ImagesModule } from './images/images.module';
         username: config.get<string>('DB_USER'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Post, Category, Tag, Comment],
+        entities: [Post, Category, Tag, Comment, PostImage],
         synchronize: true,
       }),
     }),
