@@ -17,6 +17,7 @@ import TiptapEditor from '../Editor/TiptapEditor';
 import Buttons from '@/app/component/Buttons';
 import { useRouter } from 'next/navigation';
 import { formatTagsToString } from '@/app/lib/utils';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type PostImage = {
   id?: number;
@@ -53,6 +54,9 @@ const PostForm = ({ initialData }: PostFormProps) => {
   );
   const [isUploading, setIsUploading] = useState(false);
 
+  const isAdmin = useAuthStore((state) => state.isAdmin);
+  const isHydrated = useAuthStore((state) => state.isHydrated);
+
   const isEditMode = !!initialData; // modifiy인지 아닌지
 
   const {
@@ -72,6 +76,17 @@ const PostForm = ({ initialData }: PostFormProps) => {
       images: initialData?.images || [],
     },
   });
+
+  useEffect(() => {
+    // 1. 로컬 스토리지에서 데이터를 다 읽어올 때까지 기다림
+    if (!isHydrated) return;
+
+    // 2. 복구가 끝난 시점에만 권한을 체크
+    if (!isAdmin) {
+      alert('관리자만 접근 가능한 페이지입니다.');
+      router.replace('/blog');
+    }
+  }, [isHydrated, isAdmin, router]);
 
   useEffect(() => {
     getCategoriesFromApi().then(setCategories);
@@ -104,6 +119,8 @@ const PostForm = ({ initialData }: PostFormProps) => {
     }
   }, [initialData, reset, setValue, categories]);
 
+  // 관리자일 때만 실제 페이지 내용 렌더링
+  if (!isAdmin) return null;
   // 저장 로직 (RHF의 handleSubmit을 통과해야 실행됨)
   const onValid = async (data: WriteFormData) => {
     // 1. 본문 내용 체크
