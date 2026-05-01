@@ -9,6 +9,7 @@ import { getPost } from '@/app/lib/api';
 import { Pencil } from 'lucide-react';
 import DeleteBtnLayout from './components/DeleteBtnLayout';
 import Link from 'next/link';
+import ClientOnly from '@/app/component/ClientOnly';
 
 const BlogViewPage = async ({
   params,
@@ -59,16 +60,18 @@ const BlogViewPage = async ({
             Frontend Devloper &#183; {formattedDatefunc(post.createdAt)}
           </Typography>
         </div>
-        <div className='flex gap-2'>
-          <Link href={`/blog/edit/${post.id}`}>
-            <Buttons btnType='postAction' className='bg-[#F1F5F9]'>
-              <Pencil size={14} />
-              <Typography className='text-sm'>수정</Typography>
-            </Buttons>
-          </Link>
+        <ClientOnly>
+          <div className='flex gap-2'>
+            <Link href={`/blog/edit/${post.id}`}>
+              <Buttons btnType='postAction' className='bg-[#F1F5F9]'>
+                <Pencil size={14} />
+                <Typography className='text-sm'>수정</Typography>
+              </Buttons>
+            </Link>
 
-          <DeleteBtnLayout id={post.id} />
-        </div>
+            <DeleteBtnLayout id={post.id} />
+          </div>
+        </ClientOnly>
       </div>
       <section className='pt-8 px-10 border-t border-b border-[#F1F5F9]'>
         <div
