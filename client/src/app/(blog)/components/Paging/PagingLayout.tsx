@@ -33,7 +33,7 @@ const PagingLayout = ({ totalPages, currentPage }: PagingLayoutProps) => {
     router.push(`/blog?${params.toString()}`);
   };
 
-  if (totalPages <= 1) return null;
+  // if (totalPages <= 1) return null;
 
   const navBtnStyle =
     'p-2 border border-[#E2E8F0] rounded-lg bg-white hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all';
