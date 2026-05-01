@@ -5,10 +5,10 @@ import AboutCard from '../component/Card/AboutCard';
 import TechStackTabs from '../component/TechStack/TechStackTabs';
 import Typography from '../component/Typography';
 import PortfolioCard from '../component/Card/PortfolioCard';
-import ConTactInput from '../component/InputField/ConTactInput';
 import Image from 'next/image';
 import { MAIN_ICON_MAP } from '../component/icons';
 import dummyImg from '@/app/images/dummy-img.png';
+import ConTactForm from './components/ContactForm';
 
 export default function Home() {
   return (
@@ -146,11 +146,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className='flex flex-col w-[325px] p-8 gap-4 rounded-2xl border border-stroke-gray bg-white shadow-[0_10px_15px_-1px_rgba(0,0,0,0.1)]'>
-            <ConTactInput label='성함' placeholder='홍길동' />
-            <ConTactInput label='이메일' placeholder='example@co.kr' />
-            <Buttons btnType='primary'>보내기</Buttons>
-          </div>
+          <ConTactForm />
         </div>
       </section>
     </div>
