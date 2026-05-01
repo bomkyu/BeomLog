@@ -88,6 +88,12 @@ export class PostsService {
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.category', 'category') // 카테고리 정보 포함
       .leftJoinAndSelect('post.tags', 'tags') // 태그 정보 포함
+      .leftJoinAndSelect(
+        'post.images',
+        'image',
+        'image.isThumbnail = :isThumbnail',
+        { isThumbnail: true },
+      )
       .orderBy('post.createdAt', 'DESC') // 최신순 정렬
       .skip(skip)
       .take(take);
