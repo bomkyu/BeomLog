@@ -10,6 +10,7 @@ import {
   UploadedFile,
   Delete,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
@@ -18,12 +19,14 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { AdminGuard } from 'src/auth/admin.guard';
 
 @ApiTags('posts') // Swagger에서 'posts' 그룹화
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @UseGuards(AdminGuard)
   @Post()
   @ApiOperation({ summary: '게시글 작성' })
   create(@Body() createPostDto: CreatePostDto) {
@@ -47,6 +50,7 @@ export class PostsController {
     });
   }
 
+  @UseGuards(AdminGuard)
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -63,10 +67,11 @@ export class PostsController {
     }),
   )
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    const imageUrl = `http://localhost:4000/uploads/${file.filename}`;
+    const imageUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/uploads/${file.filename}`;
     return { url: imageUrl };
   }
 
+  @UseGuards(AdminGuard)
   @Delete(':id')
   // ParseIntPipe를 쓰면 id가 숫자인지 자동으로 검증
   async remove(@Param('id', ParseIntPipe) id: number) {
@@ -79,6 +84,7 @@ export class PostsController {
   }
 
   // Update 로직
+  @UseGuards(AdminGuard)
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
