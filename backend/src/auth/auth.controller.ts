@@ -6,10 +6,13 @@ import {
   UnauthorizedException,
   HttpCode,
   HttpStatus,
+  Get,
+  Req,
 } from '@nestjs/common';
 import { Session as ExpressSession } from 'express-session';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
+import express from 'express';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -42,5 +45,14 @@ export class AuthController {
       if (err) throw new Error('로그아웃 실패');
     });
     return { success: true };
+  }
+
+  @Get('check')
+  @ApiOperation({ summary: '관리자 세션 확인' })
+  checkAdmin(@Req() req: express.Request) {
+    if (req.session && req.session.admin) {
+      return { isAdmin: true };
+    }
+    return { isAdmin: false };
   }
 }
