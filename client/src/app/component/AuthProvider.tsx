@@ -24,9 +24,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           const data = await response.json();
           if (data.isAdmin) {
             setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
           }
         } else {
           setIsAdmin(false);
+          console.log('로그아웃 상태');
         }
       } catch (error) {
         console.error('인증 체크 중 오류 발생:', error);
