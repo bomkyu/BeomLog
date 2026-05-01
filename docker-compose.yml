@@ -34,6 +34,8 @@ services:
       DB_NAME: ${DB_NAME}
     ports:
       - '${BACKEND_PORT}:${BACKEND_PORT}'
+    env_file:
+      - .env
     volumes:
       - ./backend:/app
       - /app/node_modules
