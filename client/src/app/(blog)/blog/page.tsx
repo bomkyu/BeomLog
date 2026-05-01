@@ -15,12 +15,16 @@ export interface Tag {
   name: string;
 }
 
+export interface ImageUrl {
+  url: string;
+}
+
 export interface Post {
   id: number;
   title: string;
   summary: string;
   content: string;
-  thumbnail: string;
+  images: ImageUrl[];
   views: number;
   createdAt: string;
   category: Category;
