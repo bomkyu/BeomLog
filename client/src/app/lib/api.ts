@@ -87,6 +87,7 @@ export const handleCreatePosts = async (
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData),
+      credentials: 'include',
     });
 
     if (response.ok) {
@@ -114,6 +115,7 @@ export const uploadImageApi = async (file: File): Promise<UploadResponse> => {
   const response = await fetch(`${BASE_URL}/posts/upload`, {
     method: 'POST',
     body: formData,
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -128,6 +130,7 @@ export const uploadImageApi = async (file: File): Promise<UploadResponse> => {
 export const deletePostApi = async (postId: number) => {
   const res = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: 'DELETE',
+    credentials: 'include',
   });
 
   if (!res.ok) {
@@ -182,6 +185,7 @@ export const handleUpdatePost = async (
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updateData), // 이제 이 안에 tags는 ["ada", "Ang"] 배열임
+    credentials: 'include',
   });
 
   if (!response.ok) throw new Error('수정 실패 ㅠ');
