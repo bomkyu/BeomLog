@@ -4,11 +4,10 @@ import Buttons from '../component/Buttons';
 import AboutCard from '../component/Card/AboutCard';
 import TechStackTabs from '../component/TechStack/TechStackTabs';
 import Typography from '../component/Typography';
-import PortfolioCard from '../component/Card/PortfolioCard';
 import Image from 'next/image';
 import { MAIN_ICON_MAP } from '../component/icons';
-import dummyImg from '@/app/images/dummy-img.png';
 import ConTactForm from './components/ContactForm';
+import CardLayout from './components/CardLayout';
 
 export default function Home() {
   return (
@@ -100,16 +99,8 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className='mt-12'>
-          <PortfolioCard
-            img={dummyImg}
-            title={'차세대 커머스 대시보드'}
-            tag={'React'}
-            description={
-              '실시간 주문 트래킹과 데이터 시각화를 제공하는 B2B 관리자 대시보드를 구축했습니다. 전반적인 성능을 40% 개선했습니다.'
-            }
-            src={'blog/0'}
-          />
+        <div className='flex mt-12'>
+          <CardLayout />
         </div>
       </section>
       <section id='phone' className='py-20'>

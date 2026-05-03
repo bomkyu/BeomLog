@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import Typography from '../Typography';
 import Badge from '../Badge';
-import Image, { StaticImageData } from 'next/image';
+import { StaticImageData } from 'next/image';
+import ImgThumb from '@/app/(blog)/components/ImgThumb';
 
 type PortfolioCardProps = {
   title: string;
-  tag: string;
+  category: string;
   description: string;
   src: string;
   img: string | StaticImageData;
@@ -13,19 +14,22 @@ type PortfolioCardProps = {
 const PortfolioCard = ({
   title,
   description,
-  tag,
+  category,
   src,
   img,
 }: PortfolioCardProps) => {
   return (
     <div className='max-w-[534px] w-full border border-stroke-gray bg-white rounded-2xl overflow-hidden'>
       <Link href={src}>
-        <div>
-          <Image src={img} alt='더미이미지' />
+        <div className='relative'>
+          <ImgThumb
+            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${img}`}
+            alt={`썸네일 이미지`}
+          />
         </div>
         <div className='p-6'>
           <div className='mb-4 self-start'>
-            <Badge color='primary-blue'>{tag}</Badge>
+            <Badge color='primary-blue'>{category}</Badge>
           </div>
           <div className='flex flex-col gap-4'>
             <Typography variant='h3'>{title}</Typography>
