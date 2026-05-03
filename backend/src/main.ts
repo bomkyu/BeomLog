@@ -20,6 +20,8 @@ async function bootstrap() {
     credentials: true,
   });
 
+  app.set('trust proxy', 1); //Nginx 프록시를 신뢰
+
   // 1. 세션 미들웨어 설정
   app.use(
     session({
@@ -31,7 +33,7 @@ async function bootstrap() {
       cookie: {
         httpOnly: true,
         // 배포시 true로 변경해야함
-        secure: false,
+        secure: true,
         maxAge: 3600000, // 1시간 (밀리초 단위)
       },
     }),
