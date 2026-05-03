@@ -1,16 +1,20 @@
 import { extractImagesFromContent } from './utils';
 
-export const BASE_URL =
-  typeof window === 'undefined'
-    ? process.env.BACKEND_INTERNAL_URL
-    : process.env.NEXT_PUBLIC_BACKEND_URL;
+export const getBaseUrl = () => {
+  if (typeof window === 'undefined') {
+    return (
+      process.env.BACKEND_INTERNAL_URL || process.env.NEXT_PUBLIC_BACKEND_URL
+    );
+  }
+  return process.env.NEXT_PUBLIC_BACKEND_URL;
+};
 
 /** * 게시글 목록 가져오기 (필터 및 페이징 적용) */
 export const getPostsFromApi = async (
   page: string = '1',
   category: string = 'all'
 ) => {
-  const url = new URL(`${BASE_URL}/posts`);
+  const url = new URL(`${getBaseUrl()}/posts`);
   url.searchParams.append('page', page);
   url.searchParams.append('category', category);
 
@@ -31,7 +35,7 @@ export const getPostsFromApi = async (
 /** * 카테고리 목록 가져오기 */
 export const getCategoriesFromApi = async () => {
   try {
-    const res = await fetch(`${BASE_URL}/categories`, {
+    const res = await fetch(`${getBaseUrl()}/categories`, {
       next: { revalidate: 0 },
     });
     if (!res.ok) throw new Error('카테고리 로드 실패');
@@ -44,7 +48,7 @@ export const getCategoriesFromApi = async () => {
 
 /** view페이지 데이터 가져오기 */
 export const getPost = async (slug: string) => {
-  const res = await fetch(`${BASE_URL}/posts/${slug}`, {
+  const res = await fetch(`${getBaseUrl()}/posts/${slug}`, {
     next: { revalidate: 0 },
   });
 
@@ -83,7 +87,7 @@ export const handleCreatePosts = async (
   };
 
   try {
-    const response = await fetch(`${BASE_URL}/posts`, {
+    const response = await fetch(`${getBaseUrl()}/posts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData),
@@ -112,7 +116,7 @@ export const uploadImageApi = async (file: File): Promise<UploadResponse> => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`${BASE_URL}/posts/upload`, {
+  const response = await fetch(`${getBaseUrl()}/posts/upload`, {
     method: 'POST',
     body: formData,
     credentials: 'include',
@@ -128,7 +132,7 @@ export const uploadImageApi = async (file: File): Promise<UploadResponse> => {
 
 /** 삭제 APi */
 export const deletePostApi = async (postId: number) => {
-  const res = await fetch(`${BASE_URL}/posts/${postId}`, {
+  const res = await fetch(`${getBaseUrl()}/posts/${postId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -181,7 +185,7 @@ export const handleUpdatePost = async (
     images: combinedImages,
   };
 
-  const response = await fetch(`${BASE_URL}/posts/${postId}`, {
+  const response = await fetch(`${getBaseUrl()}/posts/${postId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updateData), // 이제 이 안에 tags는 ["ada", "Ang"] 배열임
