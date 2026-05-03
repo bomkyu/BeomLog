@@ -2,7 +2,7 @@ import Typography from './Typography';
 
 const Header = () => {
   return (
-    <div className='fixed w-full h-[64px] px-16 border-b-1 border-[#E2E8F0] bg-white'>
+    <div className='fixed w-full h-[64px] px-16 border-b-1 border-[#E2E8F0] bg-white z-50'>
       <div className='w-full h-full px-6'>
         <Typography variant='h3' className='flex h-full items-center'>
           Beom&apos;s portfolio
