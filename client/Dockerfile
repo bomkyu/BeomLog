@@ -6,7 +6,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-COPY . .
 
 
 # 빌드 시점에 백엔드 URL 주입
