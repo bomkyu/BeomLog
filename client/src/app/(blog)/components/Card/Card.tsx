@@ -10,7 +10,7 @@ const Card = ({ title, summary, createdAt, views, images, category }: Post) => {
     <div className='bg-white rounded-xl overflow-hidden'>
       <div className='relative'>
         <ImgThumb
-          src={`${process.env.NEXT_PUBLIC_BACKEND_URL + images[0].url}`}
+          src={`${process.env.NEXT_PUBLIC_RESOURCE_URL + images[0].url}`}
           alt={`썸네일 이미지`}
         />
         <div className='absolute w-full h-full left-0 top-0 inset-0 bg-linear-[to_bottom,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_100%] z-50' />

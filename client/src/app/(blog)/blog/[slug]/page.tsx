@@ -38,7 +38,7 @@ const BlogViewPage = async ({
       <div className='p-4'>
         <div className='flex relative w-full h-100 rounded-xl overflow-hidden'>
           <Image
-            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${thumbnailImage.url}`}
+            src={`${process.env.NEXT_PUBLIC_RESOURCE_URL}${thumbnailImage.url}`}
             alt={`${post.title}이미지`}
             fill
             unoptimized

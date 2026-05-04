@@ -12,6 +12,7 @@ services:
     environment:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
       - BACKEND_INTERNAL_URL=${BACKEND_INTERNAL_URL}
+      - NEXT_PUBLIC_RESOURCE_URL=${NEXT_PUBLIC_RESOURCE_URL}
     restart: always
     depends_on:
       - backend
@@ -28,6 +29,8 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
+    env_file:
+      - .env
     ports:
       - '${BACKEND_PORT}:${BACKEND_PORT}'
     volumes:

@@ -17,6 +17,7 @@ services:
       - NODE_ENV=development
       - BACKEND_INTERNAL_URL=${BACKEND_INTERNAL_URL}
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+      - NEXT_PUBLIC_RESOURCE_URL=${NEXT_PUBLIC_RESOURCE_URL}
     depends_on:
       - backend
 

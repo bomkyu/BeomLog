@@ -13,13 +13,15 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      `${process.env.NEXT_PUBLIC_FRONTEND_URL}`,
+      'http://localhost:3000',
       // 도메인 주소
-    ],
+      'https://beomlog.dev',
+    ].filter(Boolean),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
+  app.setGlobalPrefix('api');
   app.set('trust proxy', 1); //Nginx 프록시를 신뢰
 
   // 1. 세션 미들웨어 설정
@@ -40,7 +42,7 @@ async function bootstrap() {
   );
 
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
-    prefix: '/uploads',
+    prefix: '/api/uploads',
   });
 
   // --- Swagger 설정 시작 ---

@@ -23,7 +23,7 @@ const PortfolioCard = ({
       <Link href={src}>
         <div className='relative'>
           <ImgThumb
-            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${img}`}
+            src={`${process.env.NEXT_PUBLIC_RESOURCE_URL}${img}`}
             alt={`썸네일 이미지`}
           />
         </div>
