@@ -6,7 +6,7 @@ WORKDIR /app/client
 COPY ./client/package*.json ./
 RUN npm ci
 
-COPY ./client .
+COPY . .
 
 # 빌드 시점에 백엔드 URL 주입
 # [수정] deploy.yml에서 보내는 이름(NEXT_PUBLIC_BACKEND_URL)과 맞춤
