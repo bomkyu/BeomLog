@@ -22,7 +22,7 @@ jobs:
           # 프론트엔드 빌드 및 푸시 (환경 변수 주입 포함)
           docker build \
             --build-arg NEXT_PUBLIC_API_URL=${{ secrets.API_URL }} \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/beomlog-front:latest ./frontend
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/beomlog-front:latest ./client
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/beomlog-front:latest
 
           # 백엔드 빌드 및 푸시
