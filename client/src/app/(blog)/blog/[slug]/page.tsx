@@ -10,6 +10,7 @@ import { Pencil } from 'lucide-react';
 import DeleteBtnLayout from './components/DeleteBtnLayout';
 import Link from 'next/link';
 import ClientOnly from '@/app/component/ClientOnly';
+import ImgThumb from '../../components/ImgThumb';
 
 const BlogViewPage = async ({
   params,
@@ -37,12 +38,19 @@ const BlogViewPage = async ({
     <div className='max-w-[1280px] w-full m-auto bg-white'>
       <div className='p-4'>
         <div className='flex relative w-full h-100 rounded-xl overflow-hidden'>
-          <Image
-            src={`${process.env.NEXT_PUBLIC_RESOURCE_URL}${thumbnailImage.url}`}
-            alt={`${post.title}이미지`}
-            fill
-            unoptimized
-          />
+          <div className='relative w-full'>
+            <ImgThumb
+              src={`${process.env.NEXT_PUBLIC_RESOURCE_URL}${thumbnailImage.url}`}
+              alt={`${post.title}이미지`}
+              view
+            />
+            {/* <Image
+              // src={`${process.env.NEXT_PUBLIC_RESOURCE_URL}${thumbnailImage.url}`}
+              alt={`${post.title}이미지`}
+              fill
+              unoptimized
+            /> */}
+          </div>
           <div className='absolute w-full h-full inset-0 bg-linear-[to_top,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0)_50%]' />
 
           <div className='absolute flex flex-col gap-2 w-full bottom-0 left-0 p-10 z-40'>
