@@ -1,15 +1,15 @@
 # 1. build stage
 FROM node:20-alpine AS builder
-WORKDIR /app/client
+WORKDIR /app
 
 # 캐시 효율을 위해 패키지 파일부터 복사
-COPY ./client/package*.json ./
+COPY package*.json ./
 RUN npm ci
 
 COPY . .
 
+
 # 빌드 시점에 백엔드 URL 주입
-# [수정] deploy.yml에서 보내는 이름(NEXT_PUBLIC_BACKEND_URL)과 맞춤
 ARG NEXT_PUBLIC_BACKEND_URL
 ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
 
@@ -21,9 +21,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=builder /app/client/.next/standalone ./
-COPY --from=builder /app/client/.next/static ./.next/static
-
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 
