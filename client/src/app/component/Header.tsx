@@ -1,12 +1,15 @@
+import Link from 'next/link';
 import Typography from './Typography';
 
 const Header = () => {
   return (
     <div className='fixed w-full h-[64px] px-16 border-b-1 border-[#E2E8F0] bg-white z-50'>
       <div className='w-full h-full px-6'>
-        <Typography variant='h3' className='flex h-full items-center'>
-          Beom&apos;s portfolio
-        </Typography>
+        <Link href='/'>
+          <Typography variant='h3' className='flex h-full items-center'>
+            Beom&apos;s portfolio
+          </Typography>
+        </Link>
 
         <ul className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
           <li className='flex gap-8'>
