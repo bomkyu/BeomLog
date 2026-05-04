@@ -86,7 +86,7 @@ const BlogViewPage = async ({
           ))}
         </div>
       </section>
-      <section className='p-10 bg-[#F8FAFC]'>
+      {/* <section className='p-10 bg-[#F8FAFC]'>
         <Typography variant='h3'>
           댓글 <span className='text-primary-blue'>3</span>
         </Typography>
@@ -96,7 +96,7 @@ const BlogViewPage = async ({
             댓글 등록
           </Buttons>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
