@@ -50,7 +50,7 @@ export default function Home() {
             <div className="w-8 h-1 bg-primary-blue rounded-2xl" />
             <Typography variant="h2">소개</Typography>
           </div>
-          <div className="w-full lg:flex flex-col gap-6">
+          <div className="w-full flex flex-col lg:flex-row gap-6">
             <div>
               <Typography>
                 기술을 통해 일상의 불편함을 해결하는 과정에 매력을 느낍니다.
