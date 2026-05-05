@@ -38,17 +38,17 @@ const ConTactForm = () => {
         (error) => {
           console.log('FAILED...', error.text);
           alert('전송에 실패했습니다. 다시 시도해주세요.');
-        }
+        },
       );
   };
 
   return (
     <form ref={form} onSubmit={sendEmail}>
-      <div className='flex flex-col w-[325px] p-8 gap-4 rounded-2xl border border-stroke-gray bg-white shadow-[0_10px_15px_-1px_rgba(0,0,0,0.1)]'>
-        <ConTactInput label='성함' name='name' placeholder='홍길동' />
-        <ConTactInput label='이메일' name='email' placeholder='example@co.kr' />
-        <CustoMTextArea name='message' className='bg-light-gray2' />
-        <Buttons btnType='primary'>보내기</Buttons>
+      <div className="flex flex-col  p-8 gap-4 rounded-2xl border border-stroke-gray bg-white shadow-[0_10px_15px_-1px_rgba(0,0,0,0.1)]">
+        <ConTactInput label="성함" name="name" placeholder="홍길동" />
+        <ConTactInput label="이메일" name="email" placeholder="example@co.kr" />
+        <CustoMTextArea name="message" className="bg-light-gray2" />
+        <Buttons btnType="primary">보내기</Buttons>
       </div>
     </form>
   );
