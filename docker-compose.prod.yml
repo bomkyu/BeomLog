@@ -1,6 +1,7 @@
 services:
   frontend:
     container_name: beomlog-frontend
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/beomlog-frontend:latest
     build:
       context: ./client
       dockerfile: Dockerfile
@@ -19,6 +20,7 @@ services:
 
   backend:
     container_name: beomlog-backend
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/beomlog-backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
