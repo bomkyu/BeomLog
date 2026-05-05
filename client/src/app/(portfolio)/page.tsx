@@ -103,47 +103,53 @@ export default function Home() {
           <CardLayout />
         </div>
       </section>
-      <section id="phone" className="py-20 px-4">
-        <div className="flex flex-col lg:flex-row gap-12 p-8 lg:p-16 justify-between bg-primary-blue/5 rounded-3xl items-center lg:items-start">
-          <div className="flex flex-col gap-6 items-center lg:items-start text-left lg:text-left">
-            <Typography className="w-full text-3xl lg:text-4xl font-bold">
+      <section id="phone" className="py-12 lg:py-20 lg:px-4">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-12 p-5 py-10 lg:p-16 justify-between bg-primary-blue/5 rounded-3xl items-center lg:items-start">
+          <div className="flex flex-col gap-5 lg:gap-6 r lg:items-start lg:text-left w-full">
+            <Typography className="w-full text-2xl lg:text-4xl font-bold leading-tight">
               함께 일하고 싶으신가요?
             </Typography>
-            <Typography className="w-full text-base text-gray-600">
+            <Typography className="w-full text-[15px] lg:text-base text-gray-600">
               새로운 도전을 환영합니다. 프로젝트 제안이나 궁금한 점이 있다면
               <br className="hidden lg:block" />
               언제든 편하게 연락 주세요!
             </Typography>
 
-            <div className="flex flex-col gap-4 mt-2">
-              <div className="flex gap-4 items-center">
-                <div className="flex w-10 h-10 justify-center items-center rounded-full bg-white shadow-sm">
+            <div className="flex flex-col gap-3 lg:gap-4 mt-2 w-full">
+              <div className="flex gap-3 lg:gap-4 items-center">
+                <div className="flex w-9 h-9 lg:w-10 lg:h-10 justify-center items-center rounded-full bg-white shadow-sm shrink-0">
                   <Image
                     src={MAIN_ICON_MAP['mail-icon']}
                     alt="메일 icon"
-                    width={20}
-                    height={20}
+                    width={18}
+                    height={18}
+                    className="lg:w-5 lg:h-5"
                   />
                 </div>
-                <Typography className="font-medium">
+                <Typography className="text-sm lg:text-base font-medium">
                   a01090762806@gmail.com
                 </Typography>
               </div>
-              <div className="flex gap-4 items-center">
-                <div className="flex w-10 h-10 justify-center items-center rounded-full bg-white shadow-sm">
+
+              <div className="flex gap-3 lg:gap-4 items-center">
+                <div className="flex w-9 h-9 lg:w-10 lg:h-10 justify-center items-center rounded-full bg-white shadow-sm shrink-0">
                   <Image
                     src={MAIN_ICON_MAP['location-icon']}
                     alt="위치 icon"
-                    width={20}
-                    height={20}
+                    width={18}
+                    height={18}
+                    className="lg:w-5 lg:h-5"
                   />
                 </div>
-                <Typography className="font-medium">인천광역시 서구</Typography>
+                <Typography className="text-sm lg:text-base font-medium">
+                  인천광역시 서구
+                </Typography>
               </div>
             </div>
           </div>
 
-          <div className="w-full lg:max-w-[450px] rounded-2xl shadow-lg">
+          {/* Contact Form 영역 */}
+          <div className="w-full lg:max-w-[450px] rounded-2xl shadow-lg bg-white overflow-hidden">
             <ConTactForm />
           </div>
         </div>
