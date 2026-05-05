@@ -45,12 +45,12 @@ export default function Home() {
         </div>
       </section>
       <section id="introduce" className="py-20">
-        <div className="lg:flex gap-12">
-          <div className="flex lg:w-[360px] h-9 gap-2 mb-12 items-center">
+        <div className="flex flex-col md:flex-row gap-12 ">
+          <div className="flex md:w-[360px] h-9 gap-2 items-center">
             <div className="w-8 h-1 bg-primary-blue rounded-2xl" />
             <Typography variant="h2">소개</Typography>
           </div>
-          <div className="w-full flex flex-col lg:flex-row gap-6">
+          <div className="w-full flex flex-col gap-6">
             <div>
               <Typography>
                 기술을 통해 일상의 불편함을 해결하는 과정에 매력을 느낍니다.
