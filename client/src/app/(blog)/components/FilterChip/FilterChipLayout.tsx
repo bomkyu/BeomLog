@@ -15,7 +15,7 @@ const FilterChipLayout = ({ categories }: FilterChipLayout) => {
   };
 
   return (
-    <div className='flex my-10 gap-2 '>
+    <div className='flex my-10 gap-2 overflow-auto'>
       <FilterChip
         categoryId='all'
         isActive={currentCategory === 'all'}

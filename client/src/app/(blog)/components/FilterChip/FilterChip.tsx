@@ -17,11 +17,11 @@ const FilterChip = ({ children, isActive, onClick }: FilterChipProps) => {
   return (
     <button
       className={`inline-block  rounded-full px-5 py-2 transition-all ${getFilterChipStyle(
-        isActive
+        isActive,
       )}`}
       onClick={onClick}
     >
-      <Typography>{children}</Typography>
+      <Typography className='whitespace-nowrap'>{children}</Typography>
     </button>
   );
 };
