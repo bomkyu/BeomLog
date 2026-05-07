@@ -14,7 +14,9 @@ export default function BlogLayout({
   return (
     <div className='blog-container pt-[63px]'>
       <Header />
-      <main className='max-w-[1240px] w-full m-auto'>{children}</main>
+      <div className='px-5'>
+        <main className='max-w-[1240px] w-full  m-auto'>{children}</main>
+      </div>
       <Footer />
     </div>
   );
