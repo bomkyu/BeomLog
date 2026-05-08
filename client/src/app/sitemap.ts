@@ -7,10 +7,13 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
 
   // 1. 블로그 포스트 데이터 가져오기
   let posts: Post[] = [];
+
   try {
-    posts = await getPostsFromApi();
+    const response = await getPostsFromApi();
+    posts = Array.isArray(response) ? response : [];
   } catch (error) {
     console.error('Sitemap fetch error:', error);
+    posts = [];
   }
 
   // 2. 블로그 상세 포스트들 (/blog/1, /blog/2 ...)
@@ -24,16 +27,16 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   // 3. 주요 페이지들 (포트폴리오, 블로그 메인)
   const mainRoutes = [
     {
-      url: baseUrl, // 포트폴리오 메인 (/)
+      url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 1.0, // 가장 중요한 페이지
+      priority: 1.0,
     },
     {
-      url: `${baseUrl}/blog`, // 블로그 목록 (/blog)
+      url: `${baseUrl}/blog`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
-      priority: 0.9, // 블로그 메인도 높은 순위
+      priority: 0.9,
     },
   ];
 
