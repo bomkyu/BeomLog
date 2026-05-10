@@ -44,7 +44,7 @@ _Cloudflare WAF 및 SSL 보안이 적용된 환경에서 iwinv VPS를 통해 안
 
 본 프로젝트는 **Swagger**를 통해 모든 API를 문서화하여 개발 가시성을 확보했습니다.
 
-- **Swagger UI**: [https://beomlog.dev/api-docs](https://beomlog.dev/api-docs)
+- **Swagger UI**: [https://beomlog.dev/api-docs](https://localhost:4000/api)
 - **주요 엔드포인트**:
   - `POST /api/auth/login`: 관리자 세션 발급 및 인증
   - `GET /api/posts`: 게시글 목록 조회 (검색 및 페이징)
