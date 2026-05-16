@@ -26,16 +26,12 @@
 }
 
 .beomlog-prose {
-  --tw-prose-bold: var(--color-primary-blue) !important;
   --tw-prose-bullets: var(--color-primary-blue) !important;
   --tw-prose-counters: var(--color-primary-blue) !important;
   --tw-prose-code: var(--color-primary-blue) !important;
-  --tw-prose-headings: var(--color-primary-blue) !important;
-  --tw-prose-lead: var(--color-primary-blue) !important;
   --tw-prose-quotes: var(--color-primary-blue) !important;
   --tw-prose-quote-borders: var(--color-primary-blue) !important;
   --tw-prose-links: var(--color-primary-blue) !important;
-  --tw-prose-th-borders: var(--color-primary-blue) !important;
 }
 
 .prose.beomlog-prose code {
