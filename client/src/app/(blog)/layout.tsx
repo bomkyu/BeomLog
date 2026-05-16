@@ -31,7 +31,9 @@ export default function BlogLayout({
     <div className='blog-container pt-[63px]'>
       <Header />
       <div className='px-5'>
-        <main className='max-w-[1240px] w-full  m-auto'>{children}</main>
+        <main className='max-w-[1240px] w-full min-h-[calc(100vh-180px)] m-auto'>
+          {children}
+        </main>
       </div>
       <Footer />
     </div>
