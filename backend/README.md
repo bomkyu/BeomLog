@@ -137,7 +137,3 @@ http://localhost:4000/api
 
 - `GET /api/categories`: 카테고리 목록 조회
 - `POST /api/categories`: 카테고리 생성
-
-## 참고
-
-현재 TypeORM 설정은 `synchronize: true`입니다. 운영 환경에서는 데이터 손실 위험을 줄이기 위해 마이그레이션 기반 설정으로 전환하는 것을 권장합니다.
