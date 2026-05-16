@@ -1,98 +1,143 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# BeomLog Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+BeomLog의 백엔드 API 서버입니다. NestJS와 TypeORM 기반으로 블로그 게시글, 카테고리, 태그, 이미지 업로드, 관리자 인증 기능을 제공합니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 기술 스택
 
-## Description
+- NestJS 11
+- TypeScript
+- TypeORM
+- MySQL 8
+- Express Session
+- Multer
+- Swagger
+- Jest
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 주요 기능
 
-## Project setup
+- 게시글 목록/상세 조회
+- 게시글 작성, 수정, 삭제
+- 카테고리 조회 및 생성
+- 태그 엔티티 관리
+- 이미지 파일 업로드 및 정적 파일 서빙
+- 관리자 로그인/로그아웃/세션 확인
+- Swagger API 문서 제공
 
-```bash
-$ npm install
+## 프로젝트 구조
+
+```text
+src
+├── auth          # 관리자 로그인, 세션, 가드
+├── categories    # 카테고리 API
+├── comments      # 댓글 엔티티
+├── images        # 게시글 이미지 엔티티
+├── posts         # 게시글 API
+├── tags          # 태그 엔티티/서비스
+├── app.module.ts # 루트 모듈 및 TypeORM 설정
+└── main.ts       # 서버 부트스트랩, CORS, Swagger, 정적 파일 설정
 ```
 
-## Compile and run the project
+## 환경 변수
 
-```bash
-# development
-$ npm run start
+프로젝트 루트 또는 `backend/.env`에 아래 값을 설정합니다.
 
-# watch mode
-$ npm run start:dev
+```env
+PORT=4000
+BACKEND_PORT=4000
 
-# production mode
-$ npm run start:prod
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=beomlog
+
+ADMIN_PASSWORD=admin-password
+SESSION_SECRET=session-secret
+NEXT_PUBLIC_BACKEND_URL=http://localhost:4000/api
 ```
 
-## Run tests
+- `PORT`: Nest 서버 실행 포트
+- `BACKEND_PORT`: Docker compose에서 노출할 백엔드 포트
+- `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`: MySQL 접속 정보
+- `ADMIN_PASSWORD`: 관리자 로그인 비밀번호
+- `SESSION_SECRET`: 세션 쿠키 서명 키
+- `NEXT_PUBLIC_BACKEND_URL`: 업로드 이미지 URL 생성에 사용되는 공개 백엔드 주소
+
+## 로컬 실행
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
+npm run start:dev
 ```
 
-## Deployment
+기본 포트는 `4000`입니다. API에는 전역 prefix `api`가 적용됩니다.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```text
+http://localhost:4000/api
+```
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Docker 개발 실행
+
+루트 디렉터리에서 실행합니다.
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker compose up --build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+구성되는 서비스:
 
-## Resources
+- `beomlog-frontend`: Next.js 개발 서버
+- `beomlog-backend`: NestJS API 서버
+- `beomlog-mysql`: MySQL 8 데이터베이스
 
-Check out a few resources that may come in handy when working with NestJS:
+업로드 파일은 루트의 `uploads` 디렉터리에 저장되고, 컨테이너 내부 `/app/uploads`에 마운트됩니다.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 스크립트
 
-## Support
+```bash
+npm run start       # 서버 실행
+npm run start:dev   # watch 모드 개발 서버
+npm run build       # Nest 빌드
+npm run start:prod  # dist/main 실행
+npm run lint        # ESLint 자동 수정
+npm run format      # Prettier 포맷
+npm run test        # 유닛 테스트
+npm run test:e2e    # e2e 테스트
+npm run test:cov    # 테스트 커버리지
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## API 문서
 
-## Stay in touch
+서버 실행 후 Swagger 문서는 아래 주소에서 확인할 수 있습니다.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```text
+http://localhost:4000/api
+```
 
-## License
+## 주요 API
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+백엔드는 `main.ts`에서 `app.setGlobalPrefix('api')`를 사용하므로 모든 경로 앞에 `/api`가 붙습니다.
+
+### Auth
+
+- `POST /api/auth/login`: 관리자 로그인
+- `POST /api/auth/logout`: 관리자 로그아웃
+- `GET /api/auth/check`: 관리자 세션 확인
+
+### Posts
+
+- `GET /api/posts`: 게시글 목록 조회
+- `GET /api/posts/:id`: 게시글 상세 조회
+- `POST /api/posts`: 게시글 작성, 관리자 세션 필요
+- `PATCH /api/posts/:id`: 게시글 수정, 관리자 세션 필요
+- `DELETE /api/posts/:id`: 게시글 삭제, 관리자 세션 필요
+- `POST /api/posts/upload`: 이미지 업로드, 관리자 세션 필요
+
+### Categories
+
+- `GET /api/categories`: 카테고리 목록 조회
+- `POST /api/categories`: 카테고리 생성
+
+## 참고
+
+현재 TypeORM 설정은 `synchronize: true`입니다. 운영 환경에서는 데이터 손실 위험을 줄이기 위해 마이그레이션 기반 설정으로 전환하는 것을 권장합니다.
