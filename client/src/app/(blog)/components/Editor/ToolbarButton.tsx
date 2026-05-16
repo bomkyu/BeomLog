@@ -16,6 +16,8 @@ const ToolbarButton = ({
   <button
     type='button'
     onClick={onClick}
+    aria-label={label}
+    title={label}
     className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
       active
         ? 'bg-primary-blue text-white'

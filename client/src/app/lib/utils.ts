@@ -48,3 +48,32 @@ export const extractImagesFromContent = (
 
   return images;
 };
+
+export const convertInlineCodeSyntax = (html: string) => {
+  if (!html) return '';
+
+  let isCodeBlock = false;
+
+  return html
+    .split(/(<[^>]+>)/g)
+    .map((part) => {
+      if (part.startsWith('<')) {
+        const tag = part.toLowerCase();
+
+        if (tag.startsWith('<pre') || tag.startsWith('<code')) {
+          isCodeBlock = true;
+        }
+
+        if (tag.startsWith('</pre') || tag.startsWith('</code')) {
+          isCodeBlock = false;
+        }
+
+        return part;
+      }
+
+      if (isCodeBlock) return part;
+
+      return part.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    })
+    .join('');
+};

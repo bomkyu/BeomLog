@@ -12,6 +12,7 @@ import {
   mediaOptions,
   structureOptions,
 } from './ToolbarConfig';
+import { convertInlineCodeSyntax } from '@/app/lib/utils';
 
 interface TiptapEditorProps {
   content: string;
@@ -40,7 +41,7 @@ const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
         emptyEditorClass: 'is-editor-empty',
       }),
     ],
-    content: content,
+    content: convertInlineCodeSyntax(content),
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
@@ -49,7 +50,7 @@ const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
     editorProps: {
       attributes: {
         class:
-          'prose prose-slate max-w-none focus:outline-none min-h-[400px] p-4',
+          'prose prose-slate beomlog-prose max-w-none focus:outline-none min-h-[400px] p-4',
       },
     },
   });

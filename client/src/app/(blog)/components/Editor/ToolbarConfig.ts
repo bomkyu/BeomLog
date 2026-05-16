@@ -15,6 +15,7 @@ import {
   Heading3,
   LucideIcon,
   ImageIcon,
+  Code,
 } from 'lucide-react';
 
 export interface ToolbarConfig {
@@ -47,6 +48,12 @@ export const markOptions: ToolbarConfig[] = [
     text: '기울임',
     action: (editor) => editor.chain().focus().toggleItalic().run(),
     isActive: (editor) => editor.isActive('italic'),
+  },
+  {
+    icon: Code,
+    text: '인라인 코드',
+    action: (editor) => editor.chain().focus().toggleCode().run(),
+    isActive: (editor) => editor.isActive('code'),
   },
   {
     icon: Strikethrough,

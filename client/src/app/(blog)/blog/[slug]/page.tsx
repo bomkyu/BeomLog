@@ -2,7 +2,7 @@ import Badge from '@/app/component/Badge';
 import Typography from '@/app/component/Typography';
 import CustoMTextArea from '../../components/Comment/CustomTextArea';
 import Buttons from '@/app/component/Buttons';
-import { formattedDatefunc } from '@/app/lib/utils';
+import { convertInlineCodeSyntax, formattedDatefunc } from '@/app/lib/utils';
 import { Tag } from '../page';
 import Image from 'next/image';
 import { getPost } from '@/app/lib/api';
@@ -33,6 +33,7 @@ const BlogViewPage = async ({
     post.images?.find(
       (img: { isThumbnail: boolean }) => img.isThumbnail === true
     ) || post.images?.[0];
+  const contentHtml = convertInlineCodeSyntax(post.content);
 
   return (
     <div className='max-w-[1280px] w-full m-auto bg-white'>
@@ -83,8 +84,8 @@ const BlogViewPage = async ({
       </div>
       <section className='pt-8 px-10 border-t border-b border-[#F1F5F9]'>
         <div
-          className='prose max-w-none'
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          className='prose prose-slate beomlog-prose max-w-none'
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
         <div className='flex gap-2 py-8'>
           {post.tags.map((tag: Tag) => (
