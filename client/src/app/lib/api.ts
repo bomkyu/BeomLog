@@ -73,6 +73,37 @@ export const incrementPostView = async (postId: number) => {
   }
 };
 
+/** 관리자 로그인 */
+export const loginAdminApi = async (username: string, password: string) => {
+  const res = await fetch(`${getBaseUrl()}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || '로그인에 실패했습니다.');
+  }
+
+  return res.json();
+};
+
+/** 관리자 로그아웃 */
+export const logoutAdminApi = async () => {
+  const res = await fetch(`${getBaseUrl()}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    throw new Error('로그아웃에 실패했습니다.');
+  }
+
+  return res.json();
+};
+
 /** write페이지 데이테 보내기 */
 export const handleCreatePosts = async (
   formData: FormData,
