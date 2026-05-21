@@ -6,5 +6,6 @@ declare module 'express-session' {
       isLoggedIn: boolean;
       user: string;
     };
+    viewedPostIds?: number[];
   }
 }

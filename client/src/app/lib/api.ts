@@ -57,6 +57,22 @@ export const getPost = async (slug: string) => {
   return res.json();
 };
 
+/** 조회수 증가 API */
+export const incrementPostView = async (postId: number) => {
+  try {
+    const res = await fetch(`${getBaseUrl()}/posts/${postId}/view`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    if (!res.ok) return null;
+    return res.json();
+  } catch (error) {
+    console.error('incrementPostView Error:', error);
+    return null;
+  }
+};
+
 /** write페이지 데이테 보내기 */
 export const handleCreatePosts = async (
   formData: FormData,

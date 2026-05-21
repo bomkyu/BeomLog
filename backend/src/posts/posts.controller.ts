@@ -11,6 +11,7 @@ import {
   Delete,
   Patch,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
@@ -20,6 +21,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { AdminGuard } from 'src/auth/admin.guard';
+import type { Request } from 'express';
 
 @ApiTags('posts') // Swagger에서 'posts' 그룹화
 @Controller('posts')
@@ -37,6 +39,30 @@ export class PostsController {
   @ApiOperation({ summary: '게시글 상세 조회' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.findOne(id);
+  }
+
+  @Post(':id/view')
+  @ApiOperation({ summary: '게시글 조회수 증가' })
+  async incrementViews(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: Request,
+  ) {
+    const viewedPostIds = req.session.viewedPostIds ?? [];
+
+    if (viewedPostIds.includes(id)) {
+      return {
+        viewed: false,
+      };
+    }
+
+    req.session.viewedPostIds = [...viewedPostIds, id];
+
+    try {
+      return await this.postsService.incrementViews(id);
+    } catch (error) {
+      req.session.viewedPostIds = viewedPostIds;
+      throw error;
+    }
   }
 
   @Get()

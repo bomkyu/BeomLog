@@ -11,6 +11,7 @@ import DeleteBtnLayout from './components/DeleteBtnLayout';
 import Link from 'next/link';
 import ClientOnly from '@/app/component/ClientOnly';
 import ImgThumb from '../../components/ImgThumb';
+import PostViewTracker from './components/PostViewTracker';
 
 const BlogViewPage = async ({
   params,
@@ -37,6 +38,7 @@ const BlogViewPage = async ({
 
   return (
     <div className='max-w-[1280px] w-full m-auto bg-white'>
+      <PostViewTracker postId={post.id} />
       <div className='p-4'>
         <div className='flex relative w-full h-100 rounded-xl overflow-hidden'>
           <div className='relative w-full'>

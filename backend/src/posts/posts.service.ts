@@ -124,6 +124,24 @@ export class PostsService {
     return post;
   }
 
+  async incrementViews(id: number) {
+    const result = await this.postsRepository.increment({ id }, 'views', 1);
+
+    if (!result.affected) {
+      throw new NotFoundException('존재하지 않는 게시글입니다.');
+    }
+
+    const post = await this.postsRepository.findOne({
+      where: { id },
+      select: ['id', 'views'],
+    });
+
+    return {
+      viewed: true,
+      views: post?.views ?? 0,
+    };
+  }
+
   //삭제로직
   async remove(id: number): Promise<boolean> {
     // 1. 글이 있는지 확인
