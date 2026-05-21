@@ -10,6 +10,7 @@ async function bootstrap() {
   // <NestExpressApplication> 제네릭 추가
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
+  const isProduction = configService.get<string>('NODE_ENV') === 'production';
 
   app.enableCors({
     origin: [
@@ -34,8 +35,8 @@ async function bootstrap() {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        // 배포시 true로 변경해야함
-        secure: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
         maxAge: 3600000, // 1시간 (밀리초 단위)
       },
     }),
@@ -46,17 +47,18 @@ async function bootstrap() {
   });
 
   // --- Swagger 설정 시작 ---
-  const config = new DocumentBuilder()
-    .setTitle('BeomLog API')
-    .setDescription('범로그 포트폴리오 프로젝트를 위한 API 문서입니다.')
-    .setVersion('1.0')
-    .addTag('posts')
-    .build();
+  if (!isProduction) {
+    const config = new DocumentBuilder()
+      .setTitle('BeomLog API')
+      .setDescription('범로그 포트폴리오 프로젝트를 위한 API 문서입니다.')
+      .setVersion('1.0')
+      .addTag('posts')
+      .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+  }
   // --- Swagger 설정 끝 ---
-
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();
